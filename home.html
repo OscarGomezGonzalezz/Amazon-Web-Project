@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Amazon Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS files for this page -->
+     <link rel="stylesheet" href="../../css/bootstrap.css">
+
+  </head>
+  <body>
+
+    <!-- TODO: Style everything with CSS -->
+    <div class="amazon-header">
+
+      <!-- Amazon Icon for going home -->
+      <div class="amazon-header-left-section">
+        <a href="home.html" class="header-link">
+          <i class="fa-brands fa-amazon"></i>
+        </a>
+      </div>
+
+      <!--Search bar-->
+      <div class="amazon-header-middle-section">
+        <input class="search-bar" type="text" placeholder="Search">
+        <button class="search-button">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <!--Redirection to returns & orders page-->
+      <div class="amazon-header-right-section">
+        <a class="orders-link header-link" href="orders.html">
+
+          <!--We separate both words for then styling them differently-->
+          <span class="returns-text">Returns</span>
+          <span class="orders-text">& Orders</span>
+        </a>
+        <!--Redirection to cart page-->
+        <a class="cart-link header-link" href="checkout.html">
+          <i class="fa-solid fa-cart-shopping"></i>
+
+          <!--We add more details to the icon-->
+          <div class="cart-quantity js-cart-quantity">0</div>
+          <div class="cart-text">Cart</div>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Here we will display all the amazon available products-->
+    <div class="main">
+      <div class="products-grid js-products-grid">
+      </div>
+    </div>
+  
+  <!-- source for using Font Awesome (Icons Library)-->
+  <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+  </body>
+</html>
