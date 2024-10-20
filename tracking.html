@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tracking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <!-- CSS files for this page -->
+     <link rel="stylesheet" href="../../css/bootstrap.css">
+
+  </head>
+  <body>
+    <!--Same header as the home page-->
+
+    <!-- TODO: Style everything with CSS -->
+    <div class="amazon-header">
+
+        <!-- Amazon Icon for going home -->
+        <div class="amazon-header-left-section">
+          <a href="home.html" class="header-link">
+            <i class="fa-brands fa-amazon"></i>
+          </a>
+        </div>
+  
+        <!--Search bar-->
+        <div class="amazon-header-middle-section">
+          <input class="search-bar" type="text" placeholder="Search">
+          <button class="search-button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+  
+        <!--Redirection to returns & orders page-->
+        <div class="amazon-header-right-section">
+          <a class="orders-link header-link" href="orders.html">
+  
+            <!--We separate both words for then styling them differently-->
+            <span class="returns-text">Returns</span>
+            <span class="orders-text">& Orders</span>
+          </a>
+          <!--Redirection to cart page-->
+          <a class="cart-link header-link" href="checkout.html">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </a>
+
+    <div class="main">
+      <div class="order-tracking">
+        
+        <a class="back-to-orders-link link-primary" href="orders.html">
+          View all orders
+        </a>
+
+        <div class="delivery-date"></div>
+
+        <div class="product-info"></div>
+
+        <div class="product-info"></div>
+
+        <!--The product image we are tracking(We wont use Font Awesome for this)-->
+        <img class="product-image" src="./images/products/">
+
+        <div class="progress-labels-container">
+          <div class="progress-label">
+            Preparing
+          </div>
+          <div class="progress-label">
+            Shipped
+          </div>
+          <div class="progress-label">
+            Delivered
+          </div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+  </body>
+</html>
