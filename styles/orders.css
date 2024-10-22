@@ -1,0 +1,56 @@
+.main {
+    max-width: 850px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+    /* margin-left: auto;
+       margin-right auto;
+       Is a trick for centering an element horizontally
+       without needing a container. */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.page-title {
+    font-weight: 700;
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+
+.orders-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 50px;
+}
+
+.order-header {
+    background-color: rgb(240, 242, 242);
+    border: 1px solid rgb(213, 217, 217);
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    padding: 20px 25px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+.order-header-left-section {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.order-header-label {
+    font-weight: 500;
+  }
+
+.order-total {
+    margin-right: 45px;
+}
+  .order-header-right-section {
+    flex-shrink: 1;
+}
+
