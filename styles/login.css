@@ -1,0 +1,51 @@
+.login-container {
+    
+    max-width: 400px; /* Ancho máximo para centrar el contenido */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+  }
+  
+.login-box input {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+  
+.login-btn, .register-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    color: black;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+.login-btn{
+    background-color: #FFD712;
+}
+.register-btn{
+    background-color: #ffe88d;
+}
+
+.new-to-amazon-text{
+    color: lightgray; /* Texto en gris claro */
+  text-align: center; /* Centrar el texto */
+  position: relative; /* Opcional: Negrita para el texto */
+  font-size: 14px; /* Ajusta el tamaño de fuente si es necesario */
+  margin: 20px 0; /* Margen superior e inferior */
+  }
+
+.new-to-amazon-text::before,
+.new-to-amazon-text::after {
+  content: ""; /* Crea contenido vacío para las líneas */
+  position: absolute;
+  top: 50%;
+  width: 80px; /* Longitud de las barras, puedes ajustar */
+  height: 1px; /* Grosor de la barra */
+  background-color: #ccc; /* Color de las barras, igual que el texto */
+}
+.new-to-amazon-text::before {
+    left: -15px; /* Posiciona la barra a la izquierda */
+  }
+  
+.new-to-amazon-text::after {
+    right: -15px; /* Posiciona la barra a la derecha */
+  }
