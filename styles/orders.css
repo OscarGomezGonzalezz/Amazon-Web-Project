@@ -28,6 +28,7 @@
 .order-header-left-section {
   display: flex;
   flex-shrink: 0;
+  background-color: beige;
 }
 
 .order-header-label {
