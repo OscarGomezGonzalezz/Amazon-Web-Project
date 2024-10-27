@@ -191,12 +191,7 @@
     margin-bottom: 15px;
   }
 
-  .buy-again-button {
-    width: 100%;
-    margin-bottom: 40px;
-    margin-top: 15px;
-    margin-left: 30px;
-  }
+  
 
   .product-actions {
     /* grid-column: auto; undos grid-column: 2; from above.
