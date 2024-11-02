@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,34 +10,32 @@
     <link rel="stylesheet" href="./styles/header.css" />
   </head>
   <body>
-    <!-- TODO: Style everything with CSS -->
     <div class="login-container container-fluid mt-5">
       <!-- Amazon Icon for going home -->
-      <div
-        class="header-left-section container-fluid justify-content-center d-flex mb-2"
-      >
+      <div class="header-left-section container-fluid justify-content-center d-flex mb-2">
         <a href="home.html" class="">
           <i class="fa-brands fa-amazon fa-4x"></i>
         </a>
       </div>
 
-      <!--Login form-->
+      <!-- Login form -->
       <div class="login-box border rounded p-4">
         <h1>Login</h1>
         <!-- Email Input -->
-        <!-- TODO: Use Js for the action -->
-        <form id="form" action="" method="post">
+        <form id="login-form" action="./php/login.php" method="post">
           <label for="email">Email address</label>
           <input type="email" id="email" name="email" required />
 
           <!-- Password Input -->
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required />
-        </form>
-        <div id="message"></div> 
 
-        <!-- Sign-In Button -->
-        <button type="submit" class="login-btn">Continue</button>
+          <!-- Error Message -->
+          <div id="error-message" style="color: red;"></div>
+
+          <!-- Sign-In Button (Must be inside the form)-->
+          <button type="submit" class="login-btn">Continue</button>
+        </form>
 
         <!-- Forgot password link -->
         <div class="forgot-password">
@@ -53,11 +51,10 @@
       </div>
     </div>
 
-    <!-- source for using Font Awesome (Icons Library)-->
-    <script
-      src="https://kit.fontawesome.com/6e6ca3a608.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="login.js"></script>
+    <!-- Source for using Font Awesome (Icons Library) -->
+    <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+
+    <!-- Link to the JavaScript file -->
+    <script src="./js/login.js"></script>
   </body>
 </html>
