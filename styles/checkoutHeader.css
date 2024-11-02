@@ -1,0 +1,22 @@
+
+.header{
+    background-color: #E3E6E6;
+    color: black;
+    padding-top: 8px;
+    padding-bottom: 2px;
+    display: flex;
+    
+    }
+    .columna {
+        flex: 1;                    /* the space occuped */
+        padding: 20px;
+        text-align: center;
+      }
+      .columna2 {
+        flex: 3;                   /* the space occuped */
+        padding: 20px;
+        text-align: center;
+      }
+
+
+

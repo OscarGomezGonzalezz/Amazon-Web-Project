@@ -7,56 +7,31 @@
     <!-- CSS files for this page -->
      <link rel="stylesheet" href="../../css/bootstrap.css">
      <link rel="stylesheet" href="./styles/cart.css">
-     <link rel="stylesheet" href="./styles/header.css">
+     <link rel="stylesheet" href="./styles/checkoutHeader.css">
 
   </head>
   <body>
 
     <!-- TODO: Style everything with CSS -->
-    <div class="header container-fluid row align-items-center">
+    <div class="header d-flex row align-items-center">
 
       <!-- Amazon Icon for going home -->
-      <div class="header-left-section col container-fluid">
+      <div class="columna">
         <a href="home.html" class="">
           <i class="fa-brands fa-amazon fa-3x"></i>
         </a>
       </div>
 
-      <!--Search bar-->
-      <div class="header-middle-section col d-flex">
-        <input class="search-bar" type="text" placeholder="Search">
-        <button class="search-button">
-          <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-        </button>
+      <!--Process order-->
+      <div class="columna2">
+        <h1>Process order</h1>
       </div>
 
 
       
       <!--Redirection to both returns & orders and checkout pages-->
-      <div class="header-right-section col row align-items-center">
-
-        <a class="login-link header-link col" href="login.html">
-
-          <!--We separate both words for then styling them differently-->
-          <span class="hello-text">Hello,</span>
-          <span class="login-text">Log in</span>
-        </a>
-
-        <a class="orders-link header-link col" href="orders.html">
-
-          <!--We separate both words for then styling them differently-->
-          <span class="returns-text">Returns</span>
-          <span class="orders-text">& Orders</span>
-        </a>
-        
-        <!--Redirection to cart page-->
-        <a class="cart-link header-link col" href="shopping-cart.html">
-          <!--The FA icon is not valid for this feature-->
-          <img class="cart-icon" src="./images/cart-icon.png">
-           <!--We add more details to the icon-->
-          <div class="cart-quantity js-cart-quantity">0</div>
-          <div class="cart-text">Cart</div>
-        </a>   
+      <div class="columna">
+        <i class="fa-solid fa-lock"></i>
       </div>
     </div>
   
