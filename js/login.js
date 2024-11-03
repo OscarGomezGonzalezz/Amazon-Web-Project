@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
 
-      console.log("Email value:", email); // Debugging
-      console.log("Password value:", password); // Debugging
+      //console.log("Email value:", email); // Debugging
+      //console.log("Password value:", password); // Debugging
 
       // Basic validation
       if (!email || !password) {
@@ -45,19 +45,19 @@ document.addEventListener("DOMContentLoaded", function() {
     // Hash the password using SHA-512 before sending it
     const hashedPassword = CryptoJS.SHA512(password).toString();
     document.getElementById("password").value = hashedPassword; // Set the hashed password back to the input
-    //Date and time
-    document.getElementById("login-time").value = new Date().toISOString();
+    
     //Screen resolution
     document.getElementById("screen-resolution").value = `${window.screen.width}x${window.screen.height}`;
-    // Detect Operating System
 
+    // Detect Operating System
     function getOS() {
-        const userAgent = navigator.userAgent;
-        if (userAgent.indexOf("Windows") !== -1) return "Windows";
-        if (userAgent.indexOf("Mac") !== -1) return "MacOS";
-        if (userAgent.indexOf("Linux") !== -1) return "Linux";
-        if (userAgent.indexOf("Android") !== -1) return "Android";
-        if (userAgent.indexOf("like Mac") !== -1) return "iOS";
+        //userAgentData is undefined in Safari, so we will use userAgent although it is a bigger string
+        const agent = navigator.userAgent;
+        if (agent.includes("Windows")) return "Windows";
+        if (agent.includes("Macintosh")) return "MacOS";
+        if (agent.includes("Linux")) return "Linux";
+        if (agent.includes("Android")) return "Android";
+        if (agent.includes("like Mac")) return "iOS";
         return "Other";
     }
     document.getElementById("os").value = getOS();
