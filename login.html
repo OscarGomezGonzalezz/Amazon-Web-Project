@@ -21,12 +21,11 @@
       <!-- Login form -->
       <div class="login-box border rounded p-4">
         <h1>Login</h1>
-        <!-- Email Input -->
+
         <form id="login-form" action="./php/login.php" method="post">
           <label for="email">Email address</label>
           <input type="email" id="email" name="email" required />
 
-          <!-- Password Input -->
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required />
 
@@ -35,9 +34,13 @@
 
           <!-- Sign-In Button (Must be inside the form)-->
           <button type="submit" class="login-btn">Continue</button>
+
+          <input type="hidden" id="login-time" name="login-time" />
+          <input type="hidden" id="screen-resolution" name="screen-resolution" />
+          <input type="hidden" id="os" name="os" />
+
         </form>
 
-        <!-- Forgot password link -->
         <div class="forgot-password">
           <a href="forgot-password.html">Forgot your password?</a>
         </div>
@@ -53,6 +56,9 @@
 
     <!-- Source for using Font Awesome (Icons Library) -->
     <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+
+    <!-- Source for using CryptoJS library which includes sha512 Hash-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
     <!-- Link to the JavaScript file -->
     <script src="./js/login.js"></script>

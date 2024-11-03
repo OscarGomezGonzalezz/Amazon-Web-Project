@@ -34,5 +34,22 @@ document.addEventListener("DOMContentLoaded", function() {
           errorMessage.textContent = "Please enter a valid email address.";
           return;
       }
+
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{9,}$/;
+      if (!passwordRegex.test(password)) {
+          event.preventDefault();
+          errorMessage.textContent = "Password must be at least 9 characters long and contain one uppercase letter, one lowercase letter, and one number.";
+          return;
+    }
+
+    // Hash the password using SHA-512 before sending it
+    const hashedPassword = CryptoJS.SHA512(password).toString();
+    document.getElementById("password").value = hashedPassword; // Set the hashed password back to the input
+    //Date and time
+    document.getElementById("login-time").value = new Date().toISOString();
+    //Screen resolution
+    document.getElementById("screen-resolution").value = `${window.screen.width}x${window.screen.height}`;
+    // Detect Operating System
+    document.getElementById("os").value = navigator.userAgent;
   });
 });
