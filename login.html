@@ -22,7 +22,7 @@
       <div class="login-box border rounded p-4">
         <h1>Login</h1>
 
-        <form id="login-form" action="./php/login.php" method="post">
+        <form id="login-form" action="php/login.php" method="post">
           <label for="email">Email address</label>
           <input type="email" id="email" name="email" required />
 
@@ -35,7 +35,9 @@
           <!-- Sign-In Button (Must be inside the form)-->
           <button type="submit" class="login-btn">Continue</button>
 
-          <input type="hidden" id="login-time" name="login-time" />
+          <!--<input type="hidden" id="login-time" name="login-time" />
+          We have created this attribute in the db with the defect value: current_timestamp()-->
+          
           <input type="hidden" id="screen-resolution" name="screen-resolution" />
           <input type="hidden" id="os" name="os" />
 

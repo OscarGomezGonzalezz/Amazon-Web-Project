@@ -50,6 +50,16 @@ document.addEventListener("DOMContentLoaded", function() {
     //Screen resolution
     document.getElementById("screen-resolution").value = `${window.screen.width}x${window.screen.height}`;
     // Detect Operating System
-    document.getElementById("os").value = navigator.userAgent;
+
+    function getOS() {
+        const userAgent = navigator.userAgent;
+        if (userAgent.indexOf("Windows") !== -1) return "Windows";
+        if (userAgent.indexOf("Mac") !== -1) return "MacOS";
+        if (userAgent.indexOf("Linux") !== -1) return "Linux";
+        if (userAgent.indexOf("Android") !== -1) return "Android";
+        if (userAgent.indexOf("like Mac") !== -1) return "iOS";
+        return "Other";
+    }
+    document.getElementById("os").value = getOS();
   });
 });
