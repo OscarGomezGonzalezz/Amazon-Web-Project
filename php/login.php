@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //We have created this attribute in the db with the defect value: current_timestamp() so we need not to add 
     // it in the insert query
     //$loginTime = isset($_POST["login-time"]) ? trim($_POST["login-time"]) : '';
+
     $screenResolution = isset($_POST["screen-resolution"]) ? trim($_POST["screen-resolution"]) : '';
     $os = isset($_POST["os"]) ? trim($_POST["os"]) : '';
     $errors = [];
@@ -55,44 +56,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          ) 
          {
 
+            session_start();
+
             // Password is correct
             echo "<p>Login successful</p>";
 
-            function logLoginDetails($email,$screenResolution, $os) {
-                global $conn;
-            
-                // We fetch user_id from the Users table based on the email
-                $stmt = $conn->prepare("SELECT user_id FROM Users WHERE email = ?");
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $stmt->bind_result($userId);
-                $stmt->fetch();
-                $stmt->close();
+            // We fetch user_id from the Users table based on the email
+            $stmt = $conn->prepare("SELECT user_id FROM Users WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->bind_result($userId);
+            $stmt->fetch();
+            $stmt->close();
             
                 // Check if user_id was found
-                if ($userId) {
-                    //insert login details into DB
-                    $stmt = $conn->prepare("INSERT INTO LoginLogs(user_id, screen_resolution, os) VALUES (?, ?, ?)");
-                    $stmt->bind_param("iss", $userId, $screenResolution, $os); // user_id is an integer, so we use "i" for user_id
-            
+            if ($userId) {
+
+                //insert login details into DB
+                $stmt = $conn->prepare("INSERT INTO LoginLogs(user_id, screen_resolution, os) VALUES (?, ?, ?)");
+                $stmt->bind_param("iss", $userId, $screenResolution, $os); // user_id is an integer, so we use "i" for user_id
                     // Execute the statement
-                    if ($stmt->execute()) {
-                        echo "<p>Login details logged successfully.</p>";
-                    } else {
-                        echo "<p style='color: red;'>Error logging login details: " . $stmt->error . "</p>";
-                    }
-            
-                    // Close the statement
-                    $stmt->close();
-                } else {
-                    echo "<p style='color: red;'>User not found for the given email.</p>";
+                if ($stmt->execute()) {
+                echo "<p>Login details logged successfully.</p>";
+                }else {
+                echo "<p style='color: red;'>Error logging login details: " . $stmt->error . "</p>";
+                } 
+                // Close the statement
+                $stmt->close();
+
+                $_SESSION['userId'] = $userId;
+                //Set user as online
+                $stmt = $conn->prepare("UPDATE Users SET is_online = 1 WHERE user_id = ?");
+                $stmt->bind_param("i", $_SESSION['userId']);
+                $stmt->execute();
+                $stmt->close();
+
                 }
-            }
-            logLoginDetails($email, $screenResolution, $os);
+            else {
+                echo "<p style='color: red;'>User not found for the given email.</p>";
+                }
         } else {
             // Password is incorrect
             echo "<p style='color: red;'>Invalid email or password.</p>";
         }
     }
-}
+    }
 ?>
