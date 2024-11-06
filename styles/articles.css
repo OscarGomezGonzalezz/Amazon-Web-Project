@@ -2,10 +2,20 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.card-img-top {
-    height: 200px;
-    object-fit: cover;
+.card-img-wrapper {
+    width: 100%;               /* The image wrapper takes up full width */
+    height: 200px;             /* Set a fixed height for the image container */
+    display: flex;
+    justify-content: center;   /* Center the image horizontally */
+    align-items: center;       /* Center the image vertically */
+    overflow: hidden;          /* Ensure the image does not overflow */
+    background-color: white;
+}
+.card-img {
+    width: auto;               /* Let the image width scale proportionally */
+    height: 100%;              /* Ensure the image height takes up the full container height */
+    object-fit: contain;       /* Ensure the image is fully visible without being cropped */
+    max-width: 100%;           /* Prevent the image from stretching horizontally */
 }
 
 .quantity-controls {

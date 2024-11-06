@@ -25,7 +25,9 @@ function displayArticles(articles) {
         // Generate each article card
         articleCol.innerHTML = `
             <div class="card h-100">
-                <img src="${article.image_url}" class="card-img-top" alt="${article.name}">
+                <div class="card-img-wrapper">
+                <img src="${article.image_url}" class="card-img" alt="${article.name}">
+                </div>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${article.name}</h5>
                     <p class="card-text">Price: ${article.price}$</p>
