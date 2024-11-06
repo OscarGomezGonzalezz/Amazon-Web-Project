@@ -3,20 +3,25 @@ document.addEventListener("DOMContentLoaded", function() {
   const loginForm = document.getElementById("login-form");
   const errorMessage = document.getElementById("error-message");
 
-  function fetchActiveUsers() {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "php/get_online_users.php", true);
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
 
-        //FIX THIS
-        document.getElementById("online-users-count").innerHTML = response.online_users_count;
-        console.log(response.online_users_count);
-      }
-    };
-    xhr.send();
-  }
+  //Fetch implements AJAX more effectively than XML old request
+  function fetchActiveUsers() {
+    fetch("php/get_online_users.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the JSON from the response
+        })
+        .then(data => {
+            document.getElementById("online-users-count").innerHTML = data.online_users_count;
+            console.log(data.online_users_count);
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+        });
+}
+
 
   // Call `fetchActiveUsers` every 10 seconds to keep the count updated
   setInterval(fetchActiveUsers, 10000);
