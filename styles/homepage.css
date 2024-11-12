@@ -1,0 +1,79 @@
+
+.header{
+    background-color: #131921;
+    color: white;
+    margin: 0;/*we remove the auto generated margin in the right*/    
+    }
+
+.header-link { 
+    display: inline-block;
+    padding: 6px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0);
+    color: white;
+}
+.login-link{
+
+    margin-left: 200px;
+}
+.header-middle-section {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  }
+.header-right-section {
+    margin-left: auto;
+  justify-content: flex-end;
+  margin-right: 0;
+    }
+
+.returns-text, .hello-text{
+    font-size: 13px;    
+    display: block;/*It is dislpayed as a block; We could put this attribute
+                     on the login-link, and it would do the same*/
+}
+.orders-text,.login-text {
+    font-size: 13px;
+    font-weight: 700;
+    display: block;
+  }
+  .cart-link {
+    color: white;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .cart-icon {
+    width: 50px;
+  }
+  
+  .cart-text {
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  
+  .cart-quantity {
+    color: rgb(240, 136, 4);
+    font-size: 16px;
+    font-weight: 700;
+  
+    position: absolute;
+    top: 4px;
+    left: 22px;
+    
+    width: 26px;
+    text-align: center;
+  }
+  
+  .carousel-item img {
+    object-fit: cover; /* Ensures the image covers the entire area of the carousel item */
+    height: 100%; /* Stretch the image to fill the container */
+    width: 100%; /* Stretch the image to fill the container */
+  }
+  .carousel{
+    margin-bottom: 60px;
+  }
+  

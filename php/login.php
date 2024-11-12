@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 include 'db_connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
 
             // Password is correct
-            echo "<p>Login successful</p>";
+            
 
             // We fetch user_id from the Users table based on the email
             $stmt = $conn->prepare("SELECT user_id FROM Users WHERE email = ?");
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("iss", $userId, $screenResolution, $os); // user_id is an integer, so we use "i" for user_id
                     // Execute the statement
                 if ($stmt->execute()) {
-                echo "<p>Login details logged successfully.</p>";
+
                 }else {
                 echo "<p style='color: red;'>Error logging login details: " . $stmt->error . "</p>";
                 } 
@@ -89,7 +89,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt = $conn->prepare("UPDATE Users SET is_online = 1 WHERE user_id = ?");
                 $stmt->bind_param("i", $_SESSION['userId']);
                 $stmt->execute();
+
                 $stmt->close();
+                header("Location: ../homepage.html");
+                exit(); // Ensure no further code is executed
 
                 }
             else {

@@ -2,8 +2,8 @@
 session_start();
 include 'db_connection.php';
 
-if (isset($_SESSION['user_id'])) {//We access the user_id defined in login (this is possible thanks to work with sessions)
-    $user_id = $_SESSION['user_id'];
+if (isset($_SESSION['userId'])) {//We access the user_id defined in login (this is possible thanks to work with sessions)
+    $user_id = $_SESSION['userId'];
 
     // Set the user as offline in the Users table
     $stmt = $conn->prepare("UPDATE Users SET is_online = 0 WHERE user_id = ?");
@@ -16,6 +16,6 @@ if (isset($_SESSION['user_id'])) {//We access the user_id defined in login (this
 }
 
 // Redirect to the home page
-header("Location: home.html"); 
+header("Location: ../home.html"); 
 exit();
 ?>
