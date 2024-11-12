@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+    fetchActiveUsers();
+    setInterval(fetchActiveUsers, 10000);
+});
   //We have to acces DOM this way to solve undefined values problem, since the page need to be fully charged
   const loginForm = document.getElementById("login-form");
   const errorMessage = document.getElementById("error-message");
@@ -21,10 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Fetch error:", error);
         });
 }
-
-
-  // Call `fetchActiveUsers` every 10 seconds to keep the count updated
-  setInterval(fetchActiveUsers, 10000);
 
   loginForm.addEventListener("submit", function(event) {
       const email = document.getElementById("email").value.trim();
@@ -86,4 +86,4 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("os").value = getOS();
 
   });
-});
+;

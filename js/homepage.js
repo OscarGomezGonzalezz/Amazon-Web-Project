@@ -42,4 +42,6 @@ myCarousel.addEventListener('slide.bs.carousel', function () {
   console.log('Next slide index: ' + event.to);  // event.to gives you the index of the next slide
   console.log('Current slide index: ' + event.from);  // event.from gives you the index of the current slide
 })
+
+
 window.onload = fetchLastActivity();

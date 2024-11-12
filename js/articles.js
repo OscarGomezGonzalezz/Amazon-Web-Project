@@ -1,4 +1,11 @@
 
+document.addEventListener("DOMContentLoaded", function() {
+
+fetchArticles();
+fetchCartQuantity();
+
+
+})
 function fetchArticles() {
     fetch('php/get_articles.php')
         .then(response => response.json())
@@ -65,8 +72,6 @@ function decrementQuantity(article_id) {
 // Add an item to the cart
 function addToCart(article_id) {
     const quantity = document.getElementById(`quantity-${article_id}`).value;
-    console.log(article_id);
-
     fetch('php/add_articles_cart.php', {
         method: 'POST',
         headers: {
@@ -77,6 +82,7 @@ function addToCart(article_id) {
     .then(response => response.json())
     .then(data => {
         if (data.status === "success") {
+            console.log(`Adding article with ID: ${article_id} and quantity: ${quantity}`);
             console.log(data.message); // Display success message
             fetchCartQuantity(); // Update cart quantity display
         } else {
@@ -96,13 +102,13 @@ function fetchCartQuantity() {
             return response.json(); // Parse the JSON from the response
         })
         .then(data => {
-            document.querySelector(".js-cart-quantity").innerHTML = data.total_quantity;
-            console.log(data.total_quantity);
+            if(data && data.user_cart_quantity !== undefined && data.user_cart_quantity !== null){
+            console.log(data);
+            document.getElementById("js-cart-quantity").innerHTML = data.user_cart_quantity;
+            console.log(data.user_cart_quantity);
+            }
         })
         .catch(error => {
             console.error("Fetch error:", error);
         });
 }
-
-// Fetch articles on page load
-window.onload = fetchArticles;
