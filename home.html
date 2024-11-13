@@ -12,7 +12,13 @@
   </head>
   <body>
 
-    <!-- TODO: Style everything with CSS -->
+      <!-- source for using Font Awesome (Icons Library)-->
+    <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+    <!-- Link to JavaScript for Product Display and Search -->
+    <script src="js/articles.js"></script>
+    <!--Sweet alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+      <!-- TODO: Style everything with CSS -->
     <div class="header container-fluid row align-items-center">
 
       <!-- Amazon Icon for going home -->
@@ -24,8 +30,8 @@
 
       <!--Search bar-->
       <div class="header-middle-section col d-flex">
-        <input class="search-bar" type="text" placeholder="Search">
-        <button class="search-button">
+        <input class="search-bar" id="searchInput" type="text" placeholder="Search">
+        <button class="search-button" id="searchButton">
           <i class="fa-solid fa-magnifying-glass fa-lg"></i>
         </button>
       </div>
@@ -67,9 +73,6 @@
       </div>
     </div>
   
-  <!-- source for using Font Awesome (Icons Library)-->
-  <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
-  <!-- Link to JavaScript for Product Display and Search -->
-  <script src="js/articles.js"></script>
+  
   </body>
 </html>

@@ -1,23 +1,45 @@
 
+let allArticles = []; // Global variable to store all articles for then filter them if the search bar is used
+
 document.addEventListener("DOMContentLoaded", function() {
 
 fetchArticles();
 fetchCartQuantity();
 
 
+document.getElementById("searchButton").addEventListener("click", function() {
+    const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+    filterAndDisplayArticles(searchQuery);
+});
+// Event listener for pressing Enter key in the search input
+document.getElementById("searchInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {  // Check if the pressed key is Enter
+        const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+        filterAndDisplayArticles(searchQuery);
+    }
+});
+
 })
 function fetchArticles() {
     fetch('php/get_articles.php')
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Check if data is an array and properly structured
             if (data.error) {
                 console.error("Error fetching articles:", data.error);
                 return;
             }
+            allArticles = data;
             displayArticles(data); // Pass data to displayArticles
         })
         .catch(error => console.error("Fetch error:", error));
+}
+
+// Filter and display articles based on the search query
+function filterAndDisplayArticles(searchQuery) {
+    const filteredArticles = allArticles.filter(article =>
+        article.name.toLowerCase().includes(searchQuery) // Check if article name contains search query
+    );
+    displayArticles(filteredArticles); // Display only the filtered articles
 }
 
 // Function to display articles in the HTML
@@ -79,13 +101,29 @@ function addToCart(article_id) {
         },
         body: `article_id=${article_id}&quantity=${quantity}`
     })
-    .then(response => response.json())
+    .then(response => 
+        response.json()
+        )
     .then(data => {
+        console.log(data); // Display success message
+
         if (data.status === "success") {
+            Swal.fire({
+                title: "Success!",
+                text: "Products have been added successfully.",
+                icon: "success",
+                confirmButtonText: "OK"
+              });
             console.log(`Adding article with ID: ${article_id} and quantity: ${quantity}`);
-            console.log(data.message); // Display success message
+            
             fetchCartQuantity(); // Update cart quantity display
         } else {
+            Swal.fire({
+                title: "Error",
+                text: data.message || "Failed to add products to the cart.",
+                icon: "error",
+                confirmButtonText: "Try Again"
+            });
             console.error(data.message); // Display error messag
         }
     })
@@ -105,10 +143,11 @@ function fetchCartQuantity() {
             if(data && data.user_cart_quantity !== undefined && data.user_cart_quantity !== null){
             console.log(data);
             document.getElementById("js-cart-quantity").innerHTML = data.user_cart_quantity;
-            console.log(data.user_cart_quantity);
+            
             }
         })
         .catch(error => {
             console.error("Fetch error:", error);
         });
 }
+

@@ -76,4 +76,11 @@
   .carousel{
     margin-bottom: 60px;
   }
-  
+  .products-btn {
+    background-color: #FFD712;
+    padding: 10px;
+    border: none;
+    color: black;
+    cursor: pointer;
+    border-radius: 10px;
+  }
