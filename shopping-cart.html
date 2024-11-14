@@ -12,6 +12,12 @@
   </head>
   <body>
 
+    <!-- source for using Font Awesome (Icons Library) -->
+    <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+
+    <!-- source for using Font Awesome (Icons Library) -->
+    <script src="./js/cart.js"></script>
+
     <!-- TODO: Style everything with CSS -->
     <div class="header container-fluid row align-items-center">
 
@@ -43,67 +49,34 @@
         <!-- Redirection to cart page -->
         <a class="cart-link header-link col" href="shopping-cart.html">
           <img class="cart-icon" src="./images/cart-icon.png">
-          <div class="cart-quantity js-cart-quantity">0</div>
+          <div class="cart-quantity" id="js-cart-quantity">0</div>
           <div class="cart-text">Cart</div>
         </a>   
       </div>
     </div>
 
-    <div class="container main">
-
-        <!-- Page title -->
-        <div class="row">
-          <div class="page-title col-12 mb-1">
-            <h1>Cest</h1>
-          </div>
+    <div class="container main d-flex">
+      <div class="row">
+        <div class="page-title col-12 mb-1">
+          <h1>Cest</h1>
         </div>
-      
-        <!-- Main container for the cart and the order subtotal -->
-        <div class="row">
-
-          <!-- Cart -->
-          <div class="col-lg-8 mb-2 border p-3">
-            <div class="d-flex">
-              <!--Remember: Child elements of a container with d-flex are aligned in a 
-              horizontal row (this can be changed to a column with flex-column).-->
-              <img class="product-image img-fluid col-lg-3" src="example.jpg" alt="Product Image" width="100" height="100">
-
-              <div class="ms-3 col-lg-7">
-                <div class="product-name">Example Name</div>
-
-                <div class="d-flex flex-column align-items-start mt-2">
-                  <span class="stock mb-2">In Stock</span>
-
-                  <span>Quantity: <span class="quantity-label">1</span></span>
-
-                  <div class="d-flex">
-                    <a href="" class="link-primary me-2">Update</a>
-                    <a href="" class="link-danger">Delete</a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Product price -->
-              <div class=" ms-auto">$10.00</div>
-            </div>
-          </div>
-      
-          <!-- Order Subtotal -->
-          <div class="col-lg-4">
-            <div class="payment-summary border p-3">
-              <div class="payment-summary-row total-row d-flex justify-content-between">
-                <div>Subtotal (1 Product):</div>
-                <strong class="payment-summary-money">$10.00</strong>
-              </div>
-              <a href="checkout.html">
-              <button class="place-order-button btn w-100 mt-3">Process your order</button>
-              </a>
-            </div>
-          </div>
+        <div class="articles-grid row">
+          <!-- Cart Articles will be displayed here -->
         </div>
       </div>
-
-    <!-- source for using Font Awesome (Icons Library) -->
-    <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+       <!-- Order Subtotal -->
+      <div class="col-lg-4">
+        <div class="payment-summary border p-3">
+          <div class="payment-summary-row total-row d-flex justify-content-between">
+            <div>Subtotal (<span id="js-cart-quantity2">1</span> Products):</div>
+            <strong class="payment-summary-money" id="payment-summary-money">$10.00</strong>
+          </div>
+          <a href="checkout.html">
+          <button class="place-order-button btn w-100 mt-3">Process your order</button>
+          </a>
+        </div>
+      </div>
+    </div>
+   
   </body>
 </html>
