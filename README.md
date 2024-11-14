@@ -1,6 +1,4 @@
-Amazon Web Project
-
-Libraries and Frameworks used:
+Amazon Web Project made with Boot Strap and Font Awesome
 
 Bootstrap: https://getbootstrap.com/
 Font Awesome: https://fontawesome.com/
