@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost'; // or your database server
-$username = 'root';
+$username = 'root1';
 $password = 'password1234';
 $database = 'amazonDB';
 

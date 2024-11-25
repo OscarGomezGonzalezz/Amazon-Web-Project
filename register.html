@@ -1,44 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSS files for this page -->
-     <link rel="stylesheet" href="../../css/bootstrap.css">
-     <link rel="stylesheet" href="./styles/login.css">
-     <link rel="stylesheet" href="./styles/header.css">
-
+    <title>Registro</title>
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="./styles/login.css">
+    <link rel="stylesheet" href="./styles/header.css">
   </head>
   <body>
-
-    <!-- TODO: Style everything with CSS -->
     <div class="login-container container-fluid mt-5">
-
-       <!-- Amazon Icon for going home -->
-       <div class="header-left-section container-fluid justify-content-center d-flex mb-2">
+      <!-- Amazon Icon for going home -->
+      <div class="header-left-section container-fluid justify-content-center d-flex mb-2">
         <a href="home.html" class="">
           <i class="fa-brands fa-amazon fa-4x"></i>
         </a>
       </div>
 
-      <!--Login form-->
+      <!-- Registration form -->
       <div class="login-box border rounded p-4">
-        <h1>Create Account</h1>
-        <!-- Email Input -->
-         <!-- TODO: Use Js for the action -->
-        <form action="" method="post">
-            <label for="email">Email address</label>
-            <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
-            <span id="emailFeedback"></span><br><br>
-              <!-- Sign-In Button -->
-            <button type="submit" class="login-btn">Continue</button>
+        <h1>Crear Cuenta</h1>
+        <form action="" method="post" id="registerForm">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+          <span id="emailFeedback"></span><br><br>
+          <!-- Submit button -->
+          <button type="submit" class="login-btn">Continuar</button>
         </form>
       </div>
     </div>
-  
-  <!-- source for using Font Awesome (Icons Library)-->
-  <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
-  <script src="./js/registro.js"></script>
+
+    <!-- Font Awesome (Icons Library) -->
+    <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+    <script src="./js/registro.js"></script>
   </body>
 </html>
