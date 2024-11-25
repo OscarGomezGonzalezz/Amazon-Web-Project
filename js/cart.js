@@ -1,6 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", function() {
 
+fetchTotalPrice();
 fetchCartQuantity();
 fetchArticles();
 
@@ -15,7 +16,6 @@ function fetchCartQuantity() {
         })
         .then(data => {
             if(data && data.user_cart_quantity !== undefined && data.user_cart_quantity !== null){
-            console.log(data);
             document.getElementById("js-cart-quantity").innerHTML = data.user_cart_quantity;
             document.getElementById("js-cart-quantity2").innerHTML = data.user_cart_quantity;
             
@@ -24,6 +24,25 @@ function fetchCartQuantity() {
         .catch(error => {
             console.error("Fetch error:", error);
         });
+}
+function fetchTotalPrice() {
+    fetch("php/get_cart_total_price.php")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Parse the JSON from the response
+    })
+    .then(data => {
+        if(data){
+        console.log(data.total_cart_price);
+        document.getElementById("js-total-cart-price").innerHTML = `${data.total_cart_price.toFixed(2)} $`;//We set the final price to 2 decimals
+        
+        }
+    })
+    .catch(error => {
+        console.error("Fetch error:", error);
+    });
 }
 function fetchArticles() {
     fetch('php/get_cart_articles.php')
@@ -36,7 +55,6 @@ function fetchArticles() {
                 return;
             }
             displayArticles(data); // Pass data to displayArticles
-            calculateTotalPrice(data);
         })
         .catch(error => console.error("Fetch error:", error));
 }
@@ -83,11 +101,30 @@ function displayArticles(articles) {
         `;
         
         articlesGrid.appendChild(articleCol);
+        const quantityInput = articleCol.querySelector(`#quantity-${article.article_id}`);
+        quantityInput.addEventListener('change', (event) => {
+            const newQuantity = parseInt(event.target.value, 10);
+            if (newQuantity >= 1) {
+                
+                updateCart(article.article_id, newQuantity); // Update the cart with the new quantity
+                
+                setTimeout(() => {
+                    location.reload(); // Reload the page to refresh the cart data
+                    hideSpinner();
+                }, 500); // Add a delay before reloading to ensure the cart updates properly
+                
+                
+            } else {
+                // Reset the input value to the previous quantity if invalid
+                event.target.value = article.quantity;
+                alert("Quantity must be at least 1.");
+            }
+        });
     });
 }
 
 function updateCart(article_id, quantity) {
-    fetch('php/update_articles_cart.php', {
+     fetch('php/update_articles_cart.php', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -101,8 +138,8 @@ function updateCart(article_id, quantity) {
         response.json()
         )
     .then(data => {
-        console.log(data); // Display success message
-
+        console.log(data);
+        showSpinner();
         if (data.status === "success") {
             fetchCartQuantity(); // Update cart quantity display
         } else {
@@ -117,34 +154,37 @@ function incrementQuantity(article_id) {
 
         quantityInput.value = parseInt(quantityInput.value) + 1;
         updateCart(article_id, quantityInput.value);
-    
-
+        setTimeout(() => {
+            location.reload(); // Reload the page to refresh the cart data
+        }, 500);
 }
 
 function decrementQuantity(article_id) {
     const quantityInput = document.getElementById(`quantity-${article_id}`);
     if (parseInt(quantityInput.value) > 1) {
         quantityInput.value = parseInt(quantityInput.value) - 1;
-        updateCart(article_id, quantityInput.value);
-    }
+        updateCart(article_id, quantityInput.value)
+        setTimeout(() => {
+            location.reload(); // Reload the page to refresh the cart data
+        }, 500);
+        };
+    
+}
+//hacer metodo para borrar el producto si el valor del input llega a 0 o si se pulsa el boton delete
+
+function showSpinner() {
+    document.getElementById('loading-spinner').style.display = 'block';
+    document.getElementById('loading-overlay').style.display = 'block';
+}
+
+function hideSpinner() {
+    document.getElementById('loading-spinner').style.display = 'none';
+    document.getElementById('loading-overlay').style.display = 'none';
 }
 
 
 
-function calculateTotalPrice(articles){
 
-    let totalPrice = 0;
 
-    if(articles){
-        totalPrice = articles.reduce((sum, article) => {
-
-            if(article.quantity >= 16) return sum + (article.price * article.quantity * 0.84);
-            else if(article.quantity >= 8) return sum + (article.price * article.quantity * 0.92);
-            else { return sum + (article.price * article.quantity); }
-        }, 0);
-        
-    }
-    document.getElementById('payment-summary-money').innerHTML = `${totalPrice.toFixed(2)} $`;//We set the final price to 2 decimals
-}
 
 
