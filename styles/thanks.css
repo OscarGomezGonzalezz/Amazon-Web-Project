@@ -1,0 +1,98 @@
+/* Font and general styles */
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Container for the thank you page */
+  .thank-you-container {
+    background-color: #131921;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  /* Header styles */
+  .thank-you-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FEBD68;
+    margin-bottom: 15px;
+  }
+  
+  /* Message styles */
+  .thank-you-message {
+    font-size: 1.2rem;
+    color: #f1f1f1;
+    margin-bottom: 20px;
+  }
+  
+  /* Order summary styles */
+  .order-summary {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .order-summary h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .order-summary p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .order-summary span {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  /* Actions (buttons) */
+  .thank-you-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .thank-you-actions .btn {
+    width: 48%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .thank-you-actions .btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+  }
+  
+  .thank-you-actions .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .thank-you-actions .btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+  }
+  
+  .thank-you-actions .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
