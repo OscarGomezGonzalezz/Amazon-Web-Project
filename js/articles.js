@@ -1,7 +1,3 @@
-
-import { fetchCartQuantity } from './common/fetchCartQuantity.js';
-
-
 let allArticles = []; // Global variable to store all articles for then filter them if the search bar is used
 
 
@@ -24,8 +20,28 @@ document.getElementById("searchInput").addEventListener("keydown", function(even
 });
 
 })
+//WE CANT IMPORT THIS FUNCTION SINCE THE SCOPE OF THE SCRIPT IS ALTERED AND INCR/DECR/ADD FUNCTIONS WOULD NOT BE ACCESSIBLE
+function fetchCartQuantity() {
+    fetch("php/cart/get_cart_quantity.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the JSON from the response
+        })
+        .then(data => {
+            if(data && data.user_cart_quantity !== undefined && data.user_cart_quantity !== null){
+            console.log(data);
+            document.getElementById("js-cart-quantity").innerHTML = data.user_cart_quantity;
+            
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+        });
+}
 function fetchArticles() {
-    fetch('php/get_articles.php')
+    fetch('php/cart/get_articles.php')
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -98,7 +114,7 @@ function decrementQuantity(article_id) {
 // Add an item to the cart
 function addToCart(article_id) {
     const quantity = document.getElementById(`quantity-${article_id}`).value;
-    fetch('php/add_articles_cart.php', {
+    fetch('php/cart/add_articles_cart.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

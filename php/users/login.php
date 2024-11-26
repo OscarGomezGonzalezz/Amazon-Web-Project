@@ -2,7 +2,7 @@
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
-include 'db_connection.php';
+include '../db_connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Trim and sanitize user input
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->execute();
 
                 $stmt->close();
-                header("Location: ../homepage.html");
+                header("Location: ../../homepage.html");
                 exit(); // Ensure no further code is executed
 
                 }

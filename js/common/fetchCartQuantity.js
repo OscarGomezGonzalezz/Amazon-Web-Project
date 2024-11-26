@@ -1,6 +1,6 @@
 
 function fetchCartQuantity() {
-    fetch("php/get_cart_quantity.php")
+    fetch("php/cart/get_cart_quantity.php")
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

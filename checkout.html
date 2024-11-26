@@ -53,8 +53,13 @@
           </li>
 
           <li class="list-group-item d-flex justify-content-between">
-            <div>Total (USD)</div>
-            <span id="js-total-cart-price">$20</span>
+            <div>Shipping Costs: </div>
+            <span id="js-shipping-costs" class="text-muted">0$</span>
+          </li>
+
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>Total (USD)</strong>
+            <span id="js-total-cart-price" >$20</span>
           </li>
         </ul>
 
@@ -218,5 +223,8 @@
   <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
     <!-- Link to the JavaScript file -->
     <script type="module" src="./js/checkout.js"></script>
+
+    <script type="module" src="./js/validation/validateCheckout.js"></script>
+
   </body>
 </html>

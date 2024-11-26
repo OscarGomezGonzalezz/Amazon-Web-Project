@@ -1,6 +1,6 @@
 <?php
 // This script handles AJAX requests and returns JSON responses
-include 'db_connection.php';
+include '../db_connection.php';
 
 session_start();
 

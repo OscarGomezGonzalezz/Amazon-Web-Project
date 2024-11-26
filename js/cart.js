@@ -7,7 +7,7 @@ fetchArticles();
 
 });
 function fetchCartQuantity2() {
-    fetch("php/get_cart_quantity.php")
+    fetch("php/cart/get_cart_quantity.php")
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -26,7 +26,7 @@ function fetchCartQuantity2() {
         });
 }
 function fetchTotalPrice() {
-    fetch("php/get_cart_total_price.php")
+    fetch("php/cart/get_cart_total_price.php")
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -45,7 +45,7 @@ function fetchTotalPrice() {
     });
 }
 function fetchArticles() {
-    fetch('php/get_cart_articles.php')
+    fetch('php/cart/get_cart_articles.php')
         .then(response => response.json())
         .then(data => {
 
@@ -124,7 +124,7 @@ function displayArticles(articles) {
 }
 
 function updateCart(article_id, quantity) {
-     fetch('php/update_articles_cart.php', {
+     fetch('php/cart/update_articles_cart.php', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

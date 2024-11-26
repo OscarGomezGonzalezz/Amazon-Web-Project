@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php';
+include '../db_connection.php';
 session_start();
 header('Content-Type: application/json'); // Set header for JSON response
 

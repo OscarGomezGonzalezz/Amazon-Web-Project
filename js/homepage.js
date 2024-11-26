@@ -2,7 +2,7 @@
 import {fetchCartQuantity} from './common/fetchCartQuantity.js';
 
 function fetchLastActivity(){
-    fetch("php/get_last_activity.php")
+    fetch("php/users/get_last_activity.php")
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

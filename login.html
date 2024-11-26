@@ -22,7 +22,7 @@
       <div class="login-box border rounded p-4">
         <h1>Login</h1>
 
-        <form id="login-form" action="php/login.php" method="post">
+        <form id="login-form" action="php/users/login.php" method="post" novalidate>
           <label for="email">Email address</label>
           <input type="email" id="email" name="email" required />
 
@@ -70,5 +70,8 @@
 
     <!-- Link to the JavaScript file -->
     <script src="./js/login.js"></script>
+
+    <script src="./js/validation/validateLogin.js"></script>
+
   </body>
 </html>

@@ -1,6 +1,6 @@
 async function checkUserStatus() {
     try {
-      const response = await fetch('php/is_online.php');
+      const response = await fetch('php/users/is_online.php');
       const data = await response.json();
 
       if (data.is_online === 1) {
@@ -9,7 +9,7 @@ async function checkUserStatus() {
           <span class="hello-text">Hello,</span>
           <span class="login-text">Log out</span>
         `;
-        document.querySelector('.login-link').setAttribute('href', 'php/logout.php'); // Redirect to logout page
+        document.querySelector('.login-link').setAttribute('href', 'php/users/logout.php'); // Redirect to logout page
       } else {
         // If user is not online, show Login
         document.getElementById('login-link').innerHTML = `

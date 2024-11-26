@@ -1,6 +1,6 @@
 <?php
 
-include 'db_connection.php';
+include '../db_connection.php';
 session_start();
 
 $response = ["status" => "error", "message" => "Invalid promo code"];
@@ -15,18 +15,24 @@ if (isset($_POST['promo_code'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
+        
         $row = $result->fetch_assoc();
-        $discount_amount = $row['discount_amount'];
+
         $is_active = $row['is_active'];
+        if ($is_active == 1) {
+            $discount_amount = 0;  // Set discount to 0 if inactive
+            $response['message'] = "Cuppon has already been aplied";
 
-        if ($is_active == 0) {//verify if its already activated
+        }else{
 
+        
+        $discount_amount = $row['discount_amount'];
             //we activate the code in the db
             $update_stmt = $conn->prepare("UPDATE PromoCodes SET is_active = 1 WHERE code_name = ?");
             $update_stmt->bind_param('s', $promo_code);
             $update_stmt->execute();
             $update_stmt->close();
-        }
+        
 
         // Responder con el descuento si el código es válido
         $response = [
@@ -34,7 +40,7 @@ if (isset($_POST['promo_code'])) {
             "promo_code" => $promo_code,
             "discount_amount" => $discount_amount
         ];
-        
+    }
     }
     $stmt->close();
 }

@@ -1,6 +1,6 @@
 <?php
 //This is implemented as AJAX, so we return the information as JSON
-include 'db_connection.php';
+include '../db_connection.php';
 
 session_start();
 

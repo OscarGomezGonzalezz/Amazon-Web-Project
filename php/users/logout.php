@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php';
+include '../db_connection.php';
 
 if (isset($_SESSION['userId'])) {//We access the user_id defined in login (this is possible thanks to work with sessions)
     $user_id = $_SESSION['userId'];
@@ -16,6 +16,6 @@ if (isset($_SESSION['userId'])) {//We access the user_id defined in login (this 
 }
 
 // Redirect to the home page
-header("Location: ../home.html"); 
+header("Location: ../../home.html"); 
 exit();
 ?>

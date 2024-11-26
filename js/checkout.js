@@ -1,136 +1,78 @@
 import {fetchCartQuantity} from './common/fetchCartQuantity.js';
 
-document.getElementById('checkout-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-    
-    const form = event.target;
-    const errors = {};
-  
-    // Validate first name
-    const firstName = form.firstName.value.trim();
-    if (!firstName) {
-      errors.firstName = 'First name is required.';
-    }
-  
-    // Validate last name
-    const lastName = form.lastName.value.trim();
-    if (!lastName) {
-      errors.lastName = 'Last name is required.';
-    }
-  
-    // Validate email
-    const email = form.email.value.trim();
-    if (email && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-      errors.email = 'Please provide a valid email address.';
-    }
-  
-    // Validate address
-    const address = form.address.value.trim();
-    if (!address) {
-      errors.address = 'Address is required.';
-    }
-  
-    // Validate country
-    const country = form.country.value.trim();
-    if (!country) {
-      errors.country = 'Country is required.';
-    }
-  
-    // Validate state
-    const state = form.state.value.trim();
-    if (!state) {
-      errors.state = 'State is required.';
-    }
-  
-    // Validate zip code
-    const zip = form.zip.value.trim();
-    if (!zip) {
-      errors.zip = 'Zip code is required.';
-    } else if (!/^[0-9]{5}$/.test(zip)) {
-      errors.zip = 'Please provide a valid 5-digit zip code.';
-    }
-  
-    // Validate shipping method
-    const shippingMethod = form.shippingMethod.value;
-    if (!shippingMethod) {
-        errors.shippingMethod = 'Please select a shipping method.';
-        const inputs = document.querySelectorAll('[name="shippingMethod"]');
-        inputs.forEach(input => input.classList.add('is-invalid')); // Agrega clase a todos los radios
-      } else {
-        const inputs = document.querySelectorAll('[name="shippingMethod"]');
-        inputs.forEach(input => input.classList.remove('is-invalid')); // Elimina clase si es válido
-      }
-  
-    // Validate data protection checkbox
-    const dataProtection = form.dataProtection.checked;
-    if (!dataProtection || dataProtection == '') {
-      errors.dataProtection = 'You must accept data protection.';
-    }
-  
-    // Handle errors and display messages
-    const errorFields = ['firstName', 'lastName', 'email', 'address', 'country', 'state', 'zip', 'shippingMethod', 'dataProtection'];
-    errorFields.forEach(field => {
-      const errorElement = document.getElementById(`${field}-error`);
-      const inputElement = document.getElementById(field);
-  
-      if (errors[field]) {
-        errorElement.textContent = errors[field];
-        if (inputElement) {
-          inputElement.classList.add('is-invalid');
-        }
-      } else {
-        if (errorElement) errorElement.textContent = '';
-        if (inputElement) inputElement.classList.remove('is-invalid');
-      }
-    });
-  
-    // If no errors, submit the form
-    if (Object.keys(errors).length === 0) {
-      form.submit();
-    }
-  });
-  document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
 
-    fetchTotalPrice();
-    fetchArticles();
-    fetchCartQuantity();
-    });
-    function fetchTotalPrice() {
-      fetch("php/get_cart_total_price.php")
-      .then(response => {
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json(); // Parse the JSON from the response
-      })
-      .then(data => {
-          if(data){
-          console.log(data.total_cart_price);
-          document.getElementById("js-total-cart-price").innerHTML = `${data.total_cart_price.toFixed(2)} $`;//We set the final price to 2 decimals
-          
-          }
-      })
-      .catch(error => {
+  fetchTotalPrice();
+  fetchArticles();
+  fetchCartQuantity();
+  resetValidCode();
+});
+
+let totalPrice = 0;
+
+function fetchTotalPrice() {
+  fetch("php/cart/get_cart_total_price.php")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON from the response
+    })
+    .then(data => {
+      if(data){
+        console.log(data.total_cart_price);
+        totalPrice = parseFloat(data.total_cart_price);
+        document.getElementById("js-total-cart-price").innerHTML = `${data.total_cart_price.toFixed(2)} $`;//We set the final price to 2 decimal
+      }
+    })
+    .catch(error => {
           console.error("Fetch error:", error);
-      });
-  }
-  function fetchArticles() {
-    fetch('php/get_cart_articles.php')
-        .then(response => response.json())
-        .then(data => {
+    });
+}
 
-            console.log(data);
-            if (data.error) {
-                console.error("Error fetching articles:", data.error);
-                return;
-            }
-            displayArticles(data); // Pass data to displayArticles
-        })
-        .catch(error => console.error("Fetch error:", error));
+function fetchArticles() {
+  fetch('php/cart/get_cart_articles.php')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.error) {
+        console.error("Error fetching articles:", data.error);
+        return;
+      }
+      displayArticles(data); // Pass data to displayArticles
+      })
+    .catch(error => console.error("Fetch error:", error));
+}
+
+function displayArticles(articles) {
+  const articlesList = document.querySelector('.list-articles');
+  articlesList.innerHTML = ''; // Clear previous articles
+
+  articles.forEach(article => {
+      const articleCol = document.createElement('div');
+      
+      // Generate a unique id for each article's quantity span
+      const quantitySpanId = `article-quantity-${article.article_id}`;
+      
+      // Generate each article card
+      articleCol.innerHTML = `
+      <li class="list-articles list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">${article.name}</h6>
+            <div class="text-muted"><span id="${quantitySpanId}">Loading...</span> x</div>
+          </div>
+          <span class="text-muted">${article.price} $</span>
+      </li>
+      `;
+      
+      // Fetch the article's quantity and update the corresponding span
+      fetchArticleQuantity(article.article_id, quantitySpanId);
+      articlesList.appendChild(articleCol);
+  });
 }
 
 function fetchArticleQuantity(article_id, quantitySpanId) {
-  fetch('php/get_article_quantity.php', {
+  fetch('php/cart/get_article_quantity.php', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -159,32 +101,7 @@ function fetchArticleQuantity(article_id, quantitySpanId) {
   });
 }
 
-function displayArticles(articles) {
-  const articlesList = document.querySelector('.list-articles');
-  articlesList.innerHTML = ''; // Clear previous articles
-
-  articles.forEach(article => {
-      const articleCol = document.createElement('div');
-      
-      // Generate a unique id for each article's quantity span
-      const quantitySpanId = `article-quantity-${article.article_id}`;
-      
-      // Generate each article card
-      articleCol.innerHTML = `
-      <li class="list-articles list-group-item d-flex justify-content-between lh-sm">
-          <div>
-            <h6 class="my-0">${article.name}</h6>
-            <div class="text-muted"><span id="${quantitySpanId}">Loading...</span> x</div>
-          </div>
-          <span class="text-muted">$${article.price}</span>
-      </li>
-      `;
-      
-      // Fetch the article's quantity and update the corresponding span
-      fetchArticleQuantity(article.article_id, quantitySpanId);
-      articlesList.appendChild(articleCol);
-  });
-}
+//########## LOGIC FOR THE PROMO CODE ##########
 
 document.getElementById("promo-form").addEventListener("submit", function(event){
 
@@ -192,11 +109,28 @@ document.getElementById("promo-form").addEventListener("submit", function(event)
   const promoCode = document.getElementById('promo-code-input').value.trim();
  
   applyPromoCode(promoCode);//AJAX call
-
-
 })
+
+function resetValidCode() {
+  fetch('php/promoCode/resetValidCode.php', {
+      method: 'POST',  // Cambié PATCH a POST para hacer la solicitud más adecuada
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      }
+  })
+  .then(response => response.json())  // Convertir la respuesta en formato JSON
+  .then(data => {
+      if (data.status === "success") {
+          console.log("Promo codes successfully reset.");  // Mostrar mensaje de éxito
+      } else {
+          console.error("Error: " + data.message);  // Mostrar mensaje de error si no se pudo resetear
+      }
+  })
+  .catch(error => console.error("Error resetting promo codes:", error));  // Mostrar errores en la consola
+}
+
 function applyPromoCode(code) {
-  fetch('php/validate_promo_code.php', {
+  fetch('php/promoCode/validate_promo_code.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -216,8 +150,8 @@ function applyPromoCode(code) {
       promoCodeName.textContent = data.promo_code;
       promoDiscount.textContent = `-$${data.discount_amount}`;
 
-      const currentprice = document.getElementById("js-total-cart-price").innerHTML;
-      const priceParts = currentprice.split(' ');
+      const currentBasePrice = document.getElementById("js-total-cart-price").innerHTML;
+      const priceParts = currentBasePrice.split(' ');
       let numericPrice = parseFloat(priceParts[0]);//we get the number without the $ element
       numericPrice -= data.discount_amount;
 
@@ -227,7 +161,7 @@ function applyPromoCode(code) {
       promoCodeElement.style.display = 'flex';
 
     } else {
-      document.getElementById('error-code').innerHTML = "Please, introduce a valid promo code";
+      document.getElementById('error-code').innerHTML = "Please, introduce a valid promo code or another one never used before";
 
     }
   })
@@ -235,3 +169,44 @@ function applyPromoCode(code) {
     console.error('Error:', error);
   });
 }
+
+const shippingRadios = document.querySelectorAll('input[name="shippingMethod"]');
+
+//we change the price each time we change the shipping method
+shippingRadios.forEach(function(radio) {
+      radio.addEventListener('change', handleShippingMethodChange);
+  });
+
+function handleShippingMethodChange(event) {
+  
+  let shippingCosts = 0;
+
+  const selectedShippingMethod = event.target.value;
+  if(selectedShippingMethod){
+    console.log(selectedShippingMethod);
+    
+    switch (selectedShippingMethod){
+      case 'DHL Express':
+        shippingCosts = 44;
+        break;
+  
+      case 'DHL':
+        shippingCosts = 19;
+        break;
+  
+      case 'DPD':
+        shippingCosts = 0;
+        break;
+      default:
+        shippingCosts = 0;
+        break;
+      }
+    }
+    const finalPrice = totalPrice + shippingCosts;
+    document.getElementById("js-total-cart-price").innerHTML = `${finalPrice.toFixed(2)} $`;
+
+    document.getElementById("js-shipping-costs").innerHTML = `${shippingCosts}$`;
+    
+  
+  }
+
