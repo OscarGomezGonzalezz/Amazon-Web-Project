@@ -2,11 +2,11 @@
 document.addEventListener("DOMContentLoaded", function() {
 
 fetchTotalPrice();
-fetchCartQuantity();
+fetchCartQuantity2();
 fetchArticles();
 
 });
-function fetchCartQuantity() {
+function fetchCartQuantity2() {
     fetch("php/get_cart_quantity.php")
         .then(response => {
             if (!response.ok) {
@@ -141,7 +141,7 @@ function updateCart(article_id, quantity) {
         console.log(data);
         showSpinner();
         if (data.status === "success") {
-            fetchCartQuantity(); // Update cart quantity display
+            fetchCartQuantity2(); // Update cart quantity display
         } else {
             console.error(data.message); // Display error messag
         }

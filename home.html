@@ -6,19 +6,13 @@
 
     <!-- CSS files for this page -->
      <link rel="stylesheet" href="../../css/bootstrap.css">
-     <link rel="stylesheet" href="./styles/header.css">
-     <link rel="stylesheet" href="./styles/articles.css">
+     <link rel="stylesheet" href="./styles/common/header.css">
+     <link rel="stylesheet" href="./styles/common/articles.css">
 
   </head>
   <body>
 
-      <!-- source for using Font Awesome (Icons Library)-->
-    <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
-    <!-- Link to JavaScript for Product Display and Search -->
-    <script src="js/articles.js"></script>
-    <!--Sweet alert-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-      <!-- TODO: Style everything with CSS -->
+    
     <div class="header container-fluid row align-items-center">
 
       <!-- Amazon Icon for going home -->
@@ -41,7 +35,7 @@
       <!--Redirection to both returns & orders and checkout pages-->
       <div class="header-right-section col row align-items-center">
 
-        <a class="login-link header-link col" href="login.html">
+        <a id="login-link" class="login-link header-link col" href="login.html">
 
           <!--We separate both words for then styling them differently-->
           <span class="hello-text">Hello,</span>
@@ -72,6 +66,17 @@
         <!-- Articles will be displayed here -->
       </div>
     </div>
+
+      <!-- source for using Font Awesome (Icons Library)-->
+      <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+      <!-- Link to JavaScript for Product Display and Search -->
+      <script type="module" src="js/articles.js"></script>
+      <script type="module" src="js/common/checkUserStatus.js"></script>
+      <!--Sweet alert-->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  
+      <script src="js/common/checkUserStatus.js"></script>
+        <!-- TODO: Style everything with CSS -->
   
   
   </body>

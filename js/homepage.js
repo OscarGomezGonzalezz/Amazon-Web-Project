@@ -1,4 +1,5 @@
 
+import {fetchCartQuantity} from './common/fetchCartQuantity.js';
 
 function fetchLastActivity(){
     fetch("php/get_last_activity.php")
@@ -44,4 +45,7 @@ myCarousel.addEventListener('slide.bs.carousel', function () {
 })
 
 
-window.onload = fetchLastActivity();
+document.addEventListener("DOMContentLoaded", function(){
+    fetchCartQuantity();
+    fetchLastActivity();
+})

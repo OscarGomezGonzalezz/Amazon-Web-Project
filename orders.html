@@ -7,7 +7,7 @@
      <!-- CSS files for this page -->
     <link rel="stylesheet" href="../../css/bootstrap.css">
     <link rel="stylesheet" href="styles/orders.css">
-    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/common/header.css">
 
   </head>
   <body>
@@ -30,26 +30,18 @@
           <i class="fa-solid fa-magnifying-glass fa-lg"></i>
         </button>
       </div>
-
-
-      
       <!--Redirection to both returns & orders and  pages-->
       <div class="header-right-section col row align-items-center">
-
-        <a class="login-link header-link col" href="login.html">
-
+        <a id="login-link" class="login-link header-link col" href="login.html">
           <!--We separate both words for then styling them differently-->
           <span class="hello-text">Hello,</span>
           <span class="login-text">Log in</span>
         </a>
-
         <a class="orders-link header-link col" href="orders.html">
-
           <!--We separate both words for then styling them differently-->
           <span class="returns-text">Returns</span>
           <span class="orders-text">& Orders</span>
         </a>
-        
         <!--Redirection to cart page-->
         <a class="cart-link header-link col" href="shopping-cart.html">
           <!--The FA icon is not valid for this feature-->
@@ -70,7 +62,7 @@
 
             <div class="order-header-left-section">
               <div class="order-total"> <div class="order-header-label">Total:</div>
-              <div> aqui iria el precio</div>
+              <div>$ <span id="js-total-cart-price">10.00</span></div>
             </div>
 
             <div class="order-header-right-section">
@@ -137,5 +129,8 @@
     </div>
 
     <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+
+    <script src="./js/checkUserStatus.js"></script>
+    ç<script src="./js/orders.js"></script>
   </body>
 </html>

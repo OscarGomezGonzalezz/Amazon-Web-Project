@@ -1,107 +1,90 @@
-// Access DOM elements
-const checkoutForm = document.getElementById("checkout-form");
-const errorMessage = document.getElementById("js-invalid-feedback");
-
-// Event listener for form submission
-checkoutForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    errorMessage.textContent = ""; // Clear previous error messages
-
-    const firstName = document.getElementById("firstName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const country = document.getElementById("country").value;
-    const state = document.getElementById("state").value;
-    const zip = document.getElementById("zip").value.trim();
-    const shippingMethod = document.querySelector("input[name='shippingMethod']:checked");
-    const ccName = document.getElementById("cc-name").value.trim();
-    const ccNumber = document.getElementById("cc-number").value.trim();
-    const ccExpiration = document.getElementById("cc-expiration").value.trim();
-    const ccCvv = document.getElementById("cc-cvv").value.trim();
-    const dataProtection = document.getElementById("dataProtection").checked;
-
-    // Helper function to display error and prevent submission
-    function showError(message) {
-        errorMessage.textContent = message;
+document.getElementById('checkout-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+    
+    const form = event.target;
+    const errors = {};
+  
+    // Validate first name
+    const firstName = form.firstName.value.trim();
+    if (!firstName) {
+      errors.firstName = 'First name is required.';
     }
-    console.log("First name:", firstName);
-
-    // Validation rules
-    if (!firstName || lastName == "") {
-        errorMessage.textContent = "First name and Last name are required.";
-        return;
+  
+    // Validate last name
+    const lastName = form.lastName.value.trim();
+    if (!lastName) {
+      errors.lastName = 'Last name is required.';
     }
-
-    if (!username) {
-        showError("Username is required.");
-        return;
+  
+    // Validate email
+    const email = form.email.value.trim();
+    if (email && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+      errors.email = 'Please provide a valid email address.';
     }
-
-    if (!email) {
-        showError("Email is required.");
-        return;
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-        showError("Please enter a valid email address.");
-        return;
-    }
-
+  
+    // Validate address
+    const address = form.address.value.trim();
     if (!address) {
-        showError("Address is required.");
-        return;
+      errors.address = 'Address is required.';
     }
-
+  
+    // Validate country
+    const country = form.country.value.trim();
     if (!country) {
-        showError("Please select a valid country.");
-        return;
+      errors.country = 'Country is required.';
     }
-
+  
+    // Validate state
+    const state = form.state.value.trim();
     if (!state) {
-        showError("Please select a valid state.");
-        return;
+      errors.state = 'State is required.';
     }
-
+  
+    // Validate zip code
+    const zip = form.zip.value.trim();
     if (!zip) {
-        showError("Zip code is required.");
-        return;
+      errors.zip = 'Zip code is required.';
+    } else if (!/^[0-9]{5}$/.test(zip)) {
+      errors.zip = 'Please provide a valid 5-digit zip code.';
     }
-
+  
+    // Validate shipping method
+    const shippingMethod = form.shippingMethod.value;
     if (!shippingMethod) {
-        showError("Please select a shipping method.");
-        return;
+        errors.shippingMethod = 'Please select a shipping method.';
+        const inputs = document.querySelectorAll('[name="shippingMethod"]');
+        inputs.forEach(input => input.classList.add('is-invalid')); // Agrega clase a todos los radios
+      } else {
+        const inputs = document.querySelectorAll('[name="shippingMethod"]');
+        inputs.forEach(input => input.classList.remove('is-invalid')); // Elimina clase si es válido
+      }
+  
+    // Validate data protection checkbox
+    const dataProtection = form.dataProtection.checked;
+    if (!dataProtection || dataProtection == '') {
+      errors.dataProtection = 'You must accept data protection.';
     }
-
-    if (!ccName) {
-        showError("Name on card is required.");
-        return;
+  
+    // Handle errors and display messages
+    const errorFields = ['firstName', 'lastName', 'email', 'address', 'country', 'state', 'zip', 'shippingMethod', 'dataProtection'];
+    errorFields.forEach(field => {
+      const errorElement = document.getElementById(`${field}-error`);
+      const inputElement = document.getElementById(field);
+  
+      if (errors[field]) {
+        errorElement.textContent = errors[field];
+        if (inputElement) {
+          inputElement.classList.add('is-invalid');
+        }
+      } else {
+        if (errorElement) errorElement.textContent = '';
+        if (inputElement) inputElement.classList.remove('is-invalid');
+      }
+    });
+  
+    // If no errors, submit the form
+    if (Object.keys(errors).length === 0) {
+      form.submit();
     }
-
-    if (!ccNumber || !/^\d{16}$/.test(ccNumber)) {
-        showError("Please enter a valid 16-digit credit card number.");
-        return;
-    }
-
-    if (!ccExpiration || !/^\d{2}\/\d{2}$/.test(ccExpiration)) {
-        showError("Expiration date must be in MM/YY format.");
-        return;
-    }
-
-    if (!ccCvv || !/^\d{3}$/.test(ccCvv)) {
-        showError("CVV must be a 3-digit number.");
-        return;
-    }
-
-    if (!dataProtection) {
-        showError("You must accept the data protection terms.");
-        return;
-    }
-
-    // If no errors, form will submit
-    console.log("Form validated successfully!");
-    // Optionally, you can submit the form here after successful validation
-});
+  });
+  
