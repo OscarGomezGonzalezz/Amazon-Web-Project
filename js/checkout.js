@@ -1,3 +1,5 @@
+import {fetchCartQuantity} from './common/fetchCartQuantity.js';
+
 document.getElementById('checkout-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form submission
     
@@ -87,4 +89,149 @@ document.getElementById('checkout-form').addEventListener('submit', function(eve
       form.submit();
     }
   });
-  
+  document.addEventListener("DOMContentLoaded", function() {
+
+    fetchTotalPrice();
+    fetchArticles();
+    fetchCartQuantity();
+    });
+    function fetchTotalPrice() {
+      fetch("php/get_cart_total_price.php")
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON from the response
+      })
+      .then(data => {
+          if(data){
+          console.log(data.total_cart_price);
+          document.getElementById("js-total-cart-price").innerHTML = `${data.total_cart_price.toFixed(2)} $`;//We set the final price to 2 decimals
+          
+          }
+      })
+      .catch(error => {
+          console.error("Fetch error:", error);
+      });
+  }
+  function fetchArticles() {
+    fetch('php/get_cart_articles.php')
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data);
+            if (data.error) {
+                console.error("Error fetching articles:", data.error);
+                return;
+            }
+            displayArticles(data); // Pass data to displayArticles
+        })
+        .catch(error => console.error("Fetch error:", error));
+}
+
+function fetchArticleQuantity(article_id, quantitySpanId) {
+  fetch('php/get_article_quantity.php', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+          article_id: article_id
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON from the response
+  })
+  .then(data => {
+      console.log(data);
+      if (data && data.article_quantity !== undefined && data.article_quantity !== null) {
+          document.getElementById(quantitySpanId).innerHTML = data.article_quantity;
+      } else {
+          document.getElementById(quantitySpanId).innerHTML = "N/A";
+      }
+  })
+  .catch(error => {
+      console.error("Fetch error:", error);
+      document.getElementById(quantitySpanId).innerHTML = "Error";
+  });
+}
+
+function displayArticles(articles) {
+  const articlesList = document.querySelector('.list-articles');
+  articlesList.innerHTML = ''; // Clear previous articles
+
+  articles.forEach(article => {
+      const articleCol = document.createElement('div');
+      
+      // Generate a unique id for each article's quantity span
+      const quantitySpanId = `article-quantity-${article.article_id}`;
+      
+      // Generate each article card
+      articleCol.innerHTML = `
+      <li class="list-articles list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">${article.name}</h6>
+            <div class="text-muted"><span id="${quantitySpanId}">Loading...</span> x</div>
+          </div>
+          <span class="text-muted">$${article.price}</span>
+      </li>
+      `;
+      
+      // Fetch the article's quantity and update the corresponding span
+      fetchArticleQuantity(article.article_id, quantitySpanId);
+      articlesList.appendChild(articleCol);
+  });
+}
+
+document.getElementById("promo-form").addEventListener("submit", function(event){
+
+  event.preventDefault();
+  const promoCode = document.getElementById('promo-code-input').value.trim();
+ 
+  applyPromoCode(promoCode);//AJAX call
+
+
+})
+function applyPromoCode(code) {
+  fetch('php/validate_promo_code.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({ promo_code: code })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    if (data.status === 'success') {
+
+      document.getElementById('error-code').innerHTML = '';//clean the error message
+      const promoCodeElement = document.getElementById('promo-code');
+      const promoCodeName = document.getElementById('promo-code-name');
+      const promoDiscount = document.getElementById('promo-discount');
+
+      promoCodeName.textContent = data.promo_code;
+      promoDiscount.textContent = `-$${data.discount_amount}`;
+
+      const currentprice = document.getElementById("js-total-cart-price").innerHTML;
+      const priceParts = currentprice.split(' ');
+      let numericPrice = parseFloat(priceParts[0]);//we get the number without the $ element
+      numericPrice -= data.discount_amount;
+
+      //console.log(numericPrice);
+      document.getElementById("js-total-cart-price").innerHTML = numericPrice;
+      // show the cuppon
+      promoCodeElement.style.display = 'flex';
+
+    } else {
+      document.getElementById('error-code').innerHTML = "Please, introduce a valid promo code";
+
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
