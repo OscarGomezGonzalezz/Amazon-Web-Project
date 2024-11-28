@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch('../php/check_email.php', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/json'
                 },
                 body: `email=${encodeURIComponent(email)}`
             })
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch('../php/register.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             },
             body: `email=${encodeURIComponent(email)}`
         })
