@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = this.value;
         
         if (email.includes("@")) {
-            fetch('../php/check_email.php', {
+            fetch('./php/check_email.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Si el correo es válido, enviar los datos al backend para procesarlo
-        fetch('../php/register.php', {
+        fetch('./php/register.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
