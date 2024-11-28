@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 
 // Conexión a la base de datos
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=amazonDB', 'root1', 'password1234');
+    $pdo = new PDO('mysql:host=localhost;dbname=amazonDB', 'root', 'password1234');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Error en la base de datos: ' . $e->getMessage()]);
@@ -45,12 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'tu_correo@gmail.com';
-        $mail->Password = 'tu_app_password'; // Usa el App Password si tienes activada la verificación en dos pasos
+        $mail->Username = 'esperoquefuncioneconsusmuerto@gmail.com';
+        $mail->Password = 'esperoquefuncioneconsusmuerto1!'; // Usa el App Password si tienes activada la verificación en dos pasos
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->setFrom('no-reply@tudominio.com', 'Amazon Clone');
+        $mail->setFrom('esperoquefuncioneconsusmuerto@gmail.com', 'Amazon Clone');
         $mail->addAddress($email);
 
         $mail->isHTML(true);

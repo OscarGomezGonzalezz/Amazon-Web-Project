@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 
 // Conexión a la base de datos
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=amazonDB', 'root1', 'password1234');
+    $pdo = new PDO('mysql:host=localhost;dbname=amazonDB', 'root', 'password1234');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo json_encode(['error' => 'Error en la conexión a la base de datos']);
