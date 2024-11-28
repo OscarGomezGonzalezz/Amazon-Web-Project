@@ -9,18 +9,18 @@ CREATE TABLE Articles (
 );
 
 INSERT INTO Articles (name, price, quantity, image_url) VALUES
-('Küchenmaschine', 49.99, 100, 'https://example.com/images/echo_dot.jpg'),
-('Fire TV Stick 4K', 59.99, 150, 'https://example.com/images/fire_tv_stick.jpg'),
-('Kindle Paperwhite', 129.99, 80, 'https://example.com/images/kindle_paperwhite.jpg'),
-('Ring Video Doorbell', 99.99, 120, 'https://example.com/images/ring_doorbell.jpg'),
-('Instant Pot Duo 7-in-1', 89.99, 75, 'https://example.com/images/instant_pot.jpg'),
-('Echo Show 5', 84.99, 90, 'https://example.com/images/echo_show_5.jpg'),
-('Fire HD 10 Tablet', 149.99, 60, 'https://example.com/images/fire_hd_10.jpg'),
-('AmazonBasics AA Batteries', 12.99, 200, 'https://example.com/images/amazon_basics_batteries.jpg'),
-('Chalkboard Labels (Set of 48)', 10.99, 300, 'https://example.com/images/chalkboard_labels.jpg'),
-('Wireless Charging Pad', 29.99, 110, 'https://example.com/images/wireless_charger.jpg'),
-('Anker PowerCore Portable Charger', 39.99, 150, 'https://example.com/images/powercore.jpg'),
-('Smart Wi-Fi Plug', 24.99, 130, 'https://example.com/images/smart_plug.jpg'),
-('Beats Solo3 Wireless On-Ear Headphones', 199.99, 50, 'https://example.com/images/beats_headphones.jpg'),
-('Jabra Elite 75t Wireless Earbuds', 149.99, 70, 'https://example.com/images/jabra_earbuds.jpg'),
-('Fitbit Charge 4', 149.95, 65, 'https://example.com/images/fitbit_charge_4.jpg');
+('Küchenmaschine', 49.99, 100, './images/articles/küchemaschine.jpeg'),
+('Fire TV Stick 4K', 59.99, 150, './images/articles/fire_tv_stick.jpeg'),
+('Kindle Paperwhite', 129.99, 80, './images/articles/kindle_paperwhite.jpeg'),
+('Ring Video Doorbell', 99.99, 120, './images/articles/ring_video_doorbell.jpeg'),
+('Instant Pot Duo 7-in-1', 89.99, 75, './images/articles/instant_pot.jpeg'),
+('Echo Show 5', 84.99, 90, './images/articles/echo_show_5.jpeg'),
+('Fire HD 10 Tablet', 149.99, 60, './images/articles/fire_hd_10.jpeg'),
+('AmazonBasics AA Batteries', 12.99, 200, './images/articles/amazon_basics_batteries.jpeg'),
+('Chalkboard Labels (Set of 48)', 10.99, 300, './images/articles/chalkboard_labels.jpeg'),
+('Wireless Charging Pad', 29.99, 110, './images/articles/wireless_charger.jpeg'),
+('Anker PowerCore Portable Charger', 39.99, 150, './images/articles/powercore.jpeg'),
+('Smart Wi-Fi Plug', 24.99, 130, './images/articles/smart_plug.jpeg'),
+('Beats Solo3 Wireless On-Ear Headphones', 199.99, 50, './images/articles/beats_headphones.jpeg'),
+('Jabra Elite 75t Wireless Earbuds', 149.99, 70, './images/articles/jabra_earbuds.jpeg'),
+('Fitbit Charge 4', 149.95, 65, './images/articles/fitbit_charge_4.jpeg');

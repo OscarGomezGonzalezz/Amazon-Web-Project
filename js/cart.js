@@ -69,7 +69,7 @@ function displayArticles(articles) {
         articleCol.innerHTML = `
       
         <!-- Main container for the cart-->
-        <div class="row">
+        <div id="cartItem" class="row">
 
           <!-- Cart -->
           <div class="col-lg-11 mb-2 border p-3">
@@ -87,8 +87,10 @@ function displayArticles(articles) {
                   <div class="quantity-controls d-flex align-items-center mb-3">
                         <button class="btn btn-outline-secondary" onclick="decrementQuantity(${article.article_id})">-</button>
                         <input class="form-control mx-2 text-center" style="width: 60px;" type="number" id="quantity-${article.article_id}" value="${article.quantity}" min="1">
-                        <button class="btn btn-outline-secondary" onclick="incrementQuantity(${article.article_id})">+</button>
-                    </div>
+                        <button class="btn btn-outline-secondary" onclick="deleteArticle(${article.article_id})">+</button>
+
+                   <button class="btn btn-danger m-2" onclick="deleteArticle(${article.article_id})">DELETE</button>
+                  </div>
                 </div>
               </div>
 
@@ -161,14 +163,47 @@ function incrementQuantity(article_id) {
 
 function decrementQuantity(article_id) {
     const quantityInput = document.getElementById(`quantity-${article_id}`);
-    if (parseInt(quantityInput.value) > 1) {
+    if (parseInt(quantityInput.value) >= 1) {
         quantityInput.value = parseInt(quantityInput.value) - 1;
-        updateCart(article_id, quantityInput.value)
+        if(quantityInput.value == 0) {
+            console.log('deleting article');
+            deleteArticle(article_id);
+        }
+        updateCart(article_id, quantityInput.value);
         setTimeout(() => {
             location.reload(); // Reload the page to refresh the cart data
         }, 500);
         };
     
+}
+function deleteArticle(article_id){
+    fetch('php/cart/delete_article.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `article_id=${article_id}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        showSpinner();
+        if(data.success == true){
+            console.log("Article successfully deleted");
+            document.getElementById("cartItem").innerHTML='';
+            setTimeout(() => {
+                location.reload(); // Reload the page to refresh the cart data
+                hideSpinner();
+            }, 500); // Add a delay before reloading to ensure the cart updates properly
+            
+
+        }
+        else{
+            console.log("Error deleting article");
+        }
+    })
+    .catch()
+
 }
 //hacer metodo para borrar el producto si el valor del input llega a 0 o si se pulsa el boton delete
 
