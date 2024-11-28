@@ -30,6 +30,18 @@ function fetchTotalPrice() {
     });
 }
 
+
+function serializeCartArticles(cartArticles) {
+  return cartArticles.map(function(article, index) {
+      return 'cartArticles[' + index + '][name]=' + encodeURIComponent(article.name) +
+             '&cartArticles[' + index + '][quantity]=' + encodeURIComponent(article.quantity) +
+             '&cartArticles[' + index + '][price]=' + encodeURIComponent(article.price);
+  }).join('&');
+}
+
+let cartArticles = [];
+
+let cartArticlesPHP = [];
 function fetchArticles() {
   fetch('php/cart/get_cart_articles.php')
     .then(response => response.json())
@@ -39,16 +51,21 @@ function fetchArticles() {
         console.error("Error fetching articles:", data.error);
         return;
       }
-      displayArticles(data); // Pass data to displayArticles
+      cartArticles = data;
+      cartArticlesPHP = serializeCartArticles(data);
+      document.getElementById("cartArticles").value =cartArticlesPHP;
+      console.log(cartArticlesPHP);
+      displayArticles(); // Pass data to displayArticles
       })
     .catch(error => console.error("Fetch error:", error));
 }
 
-function displayArticles(articles) {
+
+function displayArticles() {
   const articlesList = document.querySelector('.list-articles');
   articlesList.innerHTML = ''; // Clear previous articles
 
-  articles.forEach(article => {
+  cartArticles.forEach(article => {
       const articleCol = document.createElement('div');
       
       // Generate a unique id for each article's quantity span
@@ -177,11 +194,13 @@ shippingRadios.forEach(function(radio) {
       radio.addEventListener('change', handleShippingMethodChange);
   });
 
+let shippingMethod = '';
 function handleShippingMethodChange(event) {
   
   let shippingCosts = 0;
 
   const selectedShippingMethod = event.target.value;
+  shippingMethod = selectedShippingMethod;
   if(selectedShippingMethod){
     console.log(selectedShippingMethod);
     
@@ -204,6 +223,8 @@ function handleShippingMethodChange(event) {
     }
     const finalPrice = totalPrice + shippingCosts;
     document.getElementById("js-total-cart-price").innerHTML = `${finalPrice.toFixed(2)} $`;
+
+    document.getElementById("totalPrice").value = finalPrice;
 
     document.getElementById("js-shipping-costs").innerHTML = `${shippingCosts}$`;
     

@@ -18,7 +18,7 @@ document.getElementById('checkout-form').addEventListener('submit', function(eve
   
     // Validate email
     const email = form.email.value.trim();
-    if (email && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+    if (!email || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
       errors.email = 'Please provide a valid email address.';
     }
   
