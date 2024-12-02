@@ -2,51 +2,65 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // Asegúrate de tener PHPMailer en tu proyecto
+require 'vendor/autoload.php'; // PHPMailer autoload
 
 header('Content-Type: application/json');
+
+// Configuración de errores
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/error_log.log');
 
 // Conexión a la base de datos
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=amazonDB', 'root', 'password1234');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Error en la base de datos: ' . $e->getMessage()]);
+    error_log("Error en la base de datos: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Error en la base de datos']);
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    
-    if (empty($email)) {
-        echo json_encode(['success' => false, 'message' => 'El correo no puede estar vacío']);
+    $rawInput = file_get_contents("php://input");
+    $input = json_decode($rawInput, true);
+
+    $email = $input['email'] ?? '';
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => 'Por favor ingresa un correo electrónico válido.']);
         exit;
     }
 
-    // Verificar si el correo ya está registrado
+    // Verificar duplicados
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
     $stmt->execute(['email' => $email]);
     if ($stmt->fetchColumn() > 0) {
-        echo json_encode(['success' => false, 'message' => 'El correo ya está registrado']);
+        echo json_encode(['success' => false, 'message' => 'El correo ya está registrado.']);
         exit;
     }
 
     // Generar contraseña aleatoria
-    $password = bin2hex(random_bytes(4)); // Generar una contraseña aleatoria
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Guardar la contraseña de manera segura
+    $password = bin2hex(random_bytes(4));
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insertar usuario en la base de datos
-    $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
-    $stmt->execute(['email' => $email, 'password' => $hashedPassword]);
+    // Insertar usuario en la base de datos con el estado de "primera vez"
+    try {
+        $stmt = $pdo->prepare("INSERT INTO users (email, password, first_login) VALUES (:email, :password, 1)");
+        $stmt->execute(['email' => $email, 'password' => $hashedPassword]);
+    } catch (PDOException $e) {
+        error_log("Error al registrar usuario: " . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error al registrar el usuario.']);
+        exit;
+    }
 
-    // Enviar correo con la contraseña
+    // Enviar email de confirmación con contraseña
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'esperoquefuncioneconsusmuerto@gmail.com';
-        $mail->Password = 'esperoquefuncioneconsusmuerto1!'; // Usa el App Password si tienes activada la verificación en dos pasos
+        $mail->Password = 'esperoquefuncioneconsusmuerto1!';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
@@ -54,13 +68,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->addAddress($email);
 
         $mail->isHTML(true);
-        $mail->Subject = 'Bienvenido a Amazon Clone';
-        $mail->Body    = "¡Hola! Has sido registrado con éxito. Tu contraseña es: $password";
+        $mail->Subject = 'Registro Exitoso - Amazon Clone';
+        $mail->Body = "Bienvenido a Amazon Clone. Tu contraseña temporal es: <b>$password</b>. 
+                       Por favor inicia sesión y cambia tu contraseña.";
 
         $mail->send();
-        echo json_encode(['success' => true, 'message' => 'Registro exitoso. Revisa tu correo para tu contraseña.']);
+        echo json_encode(['success' => true, 'message' => 'Registro exitoso. Revisa tu correo para la contraseña temporal.']);
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Error al enviar el correo: ' . $mail->ErrorInfo]);
+        error_log("Error al enviar el correo: " . $mail->ErrorInfo);
+        echo json_encode(['success' => false, 'message' => 'Error al enviar el correo de confirmación.']);
     }
 }
 ?>
