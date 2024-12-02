@@ -31,7 +31,7 @@ function displayOrders(orders){
     ordersArray.forEach(order => {
         // Create a container for each order
         const orderDiv = document.createElement('div');
-        orderDiv.className = 'd-flex';
+        orderDiv.className = 'order-header';
 
         orderDiv.innerHTML = `
           <div class="order-header-left-section col-5">
@@ -61,19 +61,16 @@ function displayOrders(orders){
             
 
             orderDetailsGrid.innerHTML += `
+            <div class="item-grid">
               <div class="product-image-container">
                 <img src="${item.image_url}" alt="${item.article_name}">
               </div>
               <div class="product-details">
                 <div class="product-name">${item.article_name}</div>
-                <div class="product-id">Product ${item.article_name}</div>
+                <div class="product-id">Price: ${item.price} $</div>
                 <div class="product-quantity">Quantity: ${item.quantity}</div>
               </div>
-              <div class="product-actions">
-                <a href="tracking.html">
-                  <button class="track-package-button button-secondary">Track package</button>
-                </a>
-              </div>
+            </div>
             `;
         });
 
