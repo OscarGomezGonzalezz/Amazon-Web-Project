@@ -1,11 +1,29 @@
-import {fetchCartQuantity} from './common/fetchCartQuantity.js';
-
 document.addEventListener("DOMContentLoaded", function() {
 
     fetchCartQuantity();
     fetchOrders();
     
 });
+//We cant import it, since sameOrder() would stay unaccessible
+function fetchCartQuantity() {
+    fetch("php/cart/get_cart_quantity.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the JSON from the response
+        })
+        .then(data => {
+            if(data && data.user_cart_quantity !== undefined && data.user_cart_quantity !== null){
+            console.log(data);
+            document.getElementById("js-cart-quantity").innerHTML = data.user_cart_quantity;
+            
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+        });
+}
 function fetchOrders() {
         fetch('php/orders/get_orders.php')
             .then(response => response.json())
@@ -45,7 +63,7 @@ function displayOrders(orders){
             <div>${order.order_id}</div>
           </div>
           <div class="order-header-btn">
-          <button class="buy-again-button col-5">
+          <button class="buy-again-button col-5" onclick="sameOrder(${order.order_id})">
           <i class="fa-solid fa-arrows-rotate"></i>
           <span class="buy-again-txt">Same order again</span>
           </button>
@@ -76,4 +94,38 @@ function displayOrders(orders){
 
         ordersGrid.appendChild(orderDetailsGrid);
     });
+
+    
+}
+
+function sameOrder(order_id){
+    fetch('php/orders/sameOrder.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            order_id: order_id
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data && data.success){
+            Swal.fire({
+                title: "Success!",
+                text: "Order has been successfully retaken.",
+                icon: "success",
+                confirmButtonText: "OK"
+              });
+            fetchOrders();
+        } else{
+            Swal.fire({
+                title: "Error",
+                text: data.message || "Failed to add products to the cart.",
+                icon: "error",
+                confirmButtonText: "Try Again"
+            });
+        }
+    })
+    .catch(error => console.error("Fetch error:", error))
 }
