@@ -174,6 +174,7 @@ function applyPromoCode(code) {
 
       //console.log(numericPrice);
       document.getElementById("js-total-cart-price").innerHTML = numericPrice;
+      document.getElementById("totalPrice").value = numericPrice;
       // show the cuppon
       promoCodeElement.style.display = 'flex';
 
