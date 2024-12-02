@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include './db_connection.php';
+include '../db_connection.php';
 
 session_start();
 
@@ -29,9 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         parse_str($_POST['cartArticles'], $cartArticles);
 
         if (is_array($cartArticles)) {
-            //echo "<pre>";
-            //print_r($cartArticles); // Verify that it's an array
-            //echo "<pre>";
+            echo "<pre>";
+            print_r($cartArticles['cartArticles']); // Verify that it's an array
+            echo "<pre>";
             
         } else {
             echo "<p style='color: red;'>Error: cartArticles is not a valid array.</p>";
@@ -88,18 +88,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 //cartArticles is passed as a nested array, so we have to access its nested array
                 foreach ($cartArticles['cartArticles'] as $article) {
-                    //echo "<pre>";
-                    //print_r($article); // Verify that it's an array
-                    //echo "<pre>";
-                    if (isset($article['name'], $article['quantity'], $article['price'])) {
+                    echo "<pre>";
+                    print_r($article); // Verify that it's an array
+                    echo "<pre>";
+                    if (isset($article['name'], $article['quantity'], $article['price'], $article['image_url'])) {
                         
                         echo "<p style='color: green;'>Inserting Order Item ".$article['name']." </p>";
-                        $stmt = $conn->prepare("INSERT INTO OrderItems(order_id, article_name, quantity, price) VALUES(?,?,?,?)");
-                        $stmt->bind_param("isid", $orderId, $article['name'], $article['quantity'], $article['price']);
+                        $stmt = $conn->prepare("INSERT INTO OrderItems(order_id, article_name, quantity, price, image_url) VALUES(?,?,?,?,?)");
+                        $stmt->bind_param("isids", $orderId, $article['name'], $article['quantity'], $article['price'], $article['image_url']);
                         $stmt->execute();
                         $stmt->close();
-                        header('Location: ../thanks.html');
-                        exit();
 
 
                     
@@ -107,6 +105,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo "<p style='color: red;'>Error creating order items details:</p>";
                     }
                 }
+
+                header('Location: ../../thanks.html');
+                exit();
 
             } else {
                 echo "<p style='color: red;'>Error creating order login details: " . $stmt->error . "</p>";

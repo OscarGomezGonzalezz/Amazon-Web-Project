@@ -35,7 +35,8 @@ function serializeCartArticles(cartArticles) {
   return cartArticles.map(function(article, index) {
       return 'cartArticles[' + index + '][name]=' + encodeURIComponent(article.name) +
              '&cartArticles[' + index + '][quantity]=' + encodeURIComponent(article.quantity) +
-             '&cartArticles[' + index + '][price]=' + encodeURIComponent(article.price);
+             '&cartArticles[' + index + '][price]=' + encodeURIComponent(article.price) +
+             '&cartArticles[' + index + '][image_url]=' + encodeURIComponent(article.image_url);
   }).join('&');
 }
 

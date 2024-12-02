@@ -6,5 +6,6 @@ CREATE TABLE OrderItems (
     article_name VARCHAR(255) NOT NULL,      -- Nombre del producto
     quantity INT NOT NULL,                   -- Cantidad del producto en el pedido
     price DECIMAL(10, 2) NOT NULL,           -- Precio por unidad del producto
+    image_url VARCHAR(255) NOT NULL,
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) -- Relación con la tabla Orders
 );

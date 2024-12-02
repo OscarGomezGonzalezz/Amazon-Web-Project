@@ -87,7 +87,7 @@ function displayArticles(articles) {
                   <div class="quantity-controls d-flex align-items-center mb-3">
                         <button class="btn btn-outline-secondary" onclick="decrementQuantity(${article.article_id})">-</button>
                         <input class="form-control mx-2 text-center" style="width: 60px;" type="number" id="quantity-${article.article_id}" value="${article.quantity}" min="1">
-                        <button class="btn btn-outline-secondary" onclick="deleteArticle(${article.article_id})">+</button>
+                        <button class="btn btn-outline-secondary" onclick="incrementQuantity(${article.article_id})">+</button>
 
                    <button class="btn btn-danger m-2" onclick="deleteArticle(${article.article_id})">DELETE</button>
                   </div>
