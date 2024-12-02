@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //TODO: ADD USERS IN THE DATABASE THROUGHOUT THE REGISTER WINDOW
     
             // Prepare and execute the query to get the stored hash from the database
-            $stmt = $conn->prepare("SELECT password_hash FROM USERS WHERE email = ?");
+            $stmt = $conn->prepare("SELECT password_hash FROM USERS WHERE email = ?"); //PONIA PASSWORD_HASH en minusculas
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $stmt->bind_result($storedHash);
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
 
             // We fetch user_id from the Users table based on the email
-            $stmt = $conn->prepare("SELECT user_id FROM Users WHERE email = ?");
+            $stmt = $conn->prepare("SELECT user_id FROM Users WHERE email = ?"); //PONIA USER_ID en minusculas
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $stmt->bind_result($userId);

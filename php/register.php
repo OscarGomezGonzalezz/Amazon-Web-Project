@@ -38,16 +38,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'message' => 'El correo ya está registrado.']);
         exit;
     }
+    // Generar contraseña aleatoria con al menos una mayúscula
+function generatePassword($length = 10) {
+    $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    $uppercaseCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $password = '';
 
-    // Generar contraseña aleatoria
-    $password = bin2hex(random_bytes(4));
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    // Generar una parte de la contraseña con caracteres al azar
+    for ($i = 0; $i < $length - 1; $i++) {
+        $password .= $characters[random_int(0, strlen($characters) - 1)];
+    }
+
+    // Asegurar que tenga al menos una mayúscula
+    $password .= $uppercaseCharacters[random_int(0, strlen($uppercaseCharacters) - 1)];
+
+    // Mezclar los caracteres para aleatoriedad
+    return str_shuffle($password);
+}
+
+// Usar la función para generar la contraseña
+$password = generatePassword();
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
 
     // Insertar usuario en la base de datos con el estado de "primera vez"
-    $id=2;
+    $id=1;
     try {
-        $stmt = $pdo->prepare("INSERT INTO users (id,email,password) VALUES ($id,:email,:password)");
-        $stmt->execute(['email' => $email, 'password' => $hashedPassword]);
+        $stmt = $pdo->prepare("INSERT INTO users (user_id,email,password_hash) VALUES ($id,:email,:password)");
+        $stmt->execute(['email' => $email, 'password' => $hashedPassword]); //REVISAR ESTA LINEA
         $id=$id +1; //CUIDADO CON ESTA; LINEA
     } catch (PDOException $e) {
         error_log("Error al registrar usuario: " . $e->getMessage());
