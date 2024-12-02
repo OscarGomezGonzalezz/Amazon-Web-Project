@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // PHPMailer autoload
+require '../vendor/autoload.php'; // PHPMailer autoload
 
 header('Content-Type: application/json');
 
@@ -44,9 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Insertar usuario en la base de datos con el estado de "primera vez"
+    $id=2;
     try {
-        $stmt = $pdo->prepare("INSERT INTO users (email, password, first_login) VALUES (:email, :password, 1)");
+        $stmt = $pdo->prepare("INSERT INTO users (id,email,password) VALUES ($id,:email,:password)");
         $stmt->execute(['email' => $email, 'password' => $hashedPassword]);
+        $id=$id +1; //CUIDADO CON ESTA; LINEA
     } catch (PDOException $e) {
         error_log("Error al registrar usuario: " . $e->getMessage());
         echo json_encode(['success' => false, 'message' => 'Error al registrar el usuario.']);
@@ -60,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'esperoquefuncioneconsusmuerto@gmail.com';
-        $mail->Password = 'esperoquefuncioneconsusmuerto1!';
+        $mail->Password = 'ttqqskqmskdovzmu';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
