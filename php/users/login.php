@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->execute();
 
                 $stmt->close();
-                header("Location: ../../homepage.html");
+                header("Location: ../../homepage.php");
                 exit(); // Ensure no further code is executed
 
                 }

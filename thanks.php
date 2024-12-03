@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// We verify if the user is logged in
+if (!isset($_SESSION['userId'])) {
+    
+    header("Location: login.html");//in case he does not, we redirige him to login page
+    exit(); 
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,7 +43,7 @@
         <button onclick="window.location.href='home.html'" class="btn btn-primary">
           Continue Shopping
         </button>
-        <button onclick="window.location.href='orders.html'" class="btn btn-secondary">
+        <button onclick="window.location.href='orders.php'" class="btn btn-secondary">
           View My Orders
         </button>
       </div>

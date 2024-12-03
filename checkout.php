@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// We verify if the user is logged in
+if (!isset($_SESSION['userId'])) {
+    
+    header("Location: login.html");//in case he does not, we redirige him to login page
+    exit(); 
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>

@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// We verify if the user is logged in
+if (!isset($_SESSION['userId'])) {
+    
+    header("Location: login.html");//in case he does not, we redirige him to login page
+    exit(); 
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -35,12 +45,12 @@
           <span class="hello-text">Hello,</span>
           <span class="login-text">Log in</span>
         </a>
-        <a class="orders-link header-link col" href="orders.html">
+        <a class="orders-link header-link col" href="orders.php">
           <span class="returns-text">Returns</span>
           <span class="orders-text">& Orders</span>
         </a>
         <!-- Redirection to cart page -->
-        <a class="cart-link header-link col" href="shopping-cart.html">
+        <a class="cart-link header-link col" href="shopping-cart.php">
           <img class="cart-icon" src="./images/cart-icon.png">
           <div class="cart-quantity" id="js-cart-quantity">0</div>
           <div class="cart-text">Cart</div>
@@ -64,7 +74,7 @@
             <div>Subtotal (<span id="js-cart-quantity2">0</span> Products):</div>
             <div>$ <span id="js-total-cart-price">0.00</span></div>
           </div>
-          <a href="checkout.html">
+          <a href="checkout.php">
           <button class="place-order-button btn w-100 mt-3">Process your order</button>
           </a>
         </div>

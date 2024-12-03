@@ -1,3 +1,14 @@
+<?php
+// Inicia la sesión
+session_start();
+
+// Verifica si el usuario está logueado
+if (!isset($_SESSION['userId'])) {
+    // Si no está logueado, redirige al login
+    header("Location: login.html");
+    exit(); // Asegura que no se siga ejecutando el código después de la redirección
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -37,13 +48,13 @@
           <span class="hello-text">Hello,</span>
           <span class="login-text">Log in</span>
         </a>
-        <a class="orders-link header-link col" href="orders.html">
+        <a class="orders-link header-link col" href="orders.php">
           <!--We separate both words for then styling them differently-->
           <span class="returns-text">Returns</span>
           <span class="orders-text">& Orders</span>
         </a>
         <!--Redirection to cart page-->
-        <a class="cart-link header-link col" href="shopping-cart.html">
+        <a class="cart-link header-link col" href="shopping-cart.php">
           <!--The FA icon is not valid for this feature-->
           <img class="cart-icon" src="./images/cart-icon.png">
            <!--We add more details to the icon-->
