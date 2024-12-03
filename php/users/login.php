@@ -72,6 +72,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Check if user_id was found
             if ($userId) {
 
+                            // Verificar si debe cambiar la contraseña
+                    $stmt = $conn->prepare("SELECT must_change_password FROM Users WHERE user_id = ?");
+                    $stmt->bind_param("i", $userId);
+                    $stmt->execute();
+                    $stmt->bind_result($mustChangePassword);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    if ($mustChangePassword) {
+                        $_SESSION['userId'] = $userId;
+                        header("Location: ../change_password.php");
+                        exit();
+                    }
+
+
                 //insert login details into DB
                 $stmt = $conn->prepare("INSERT INTO LoginLogs(user_id, screen_resolution, os) VALUES (?, ?, ?)");
                 $stmt->bind_param("iss", $userId, $screenResolution, $os); // user_id is an integer, so we use "i" for user_id
