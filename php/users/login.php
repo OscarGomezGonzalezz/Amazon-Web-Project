@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
                 // Check if user_id was found
             if ($userId) {
-
+                
                             // Verificar si debe cambiar la contraseña
                     $stmt = $conn->prepare("SELECT must_change_password FROM Users WHERE user_id = ?");
                     $stmt->bind_param("i", $userId);
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->close();
 
                     if ($mustChangePassword) {
-                        $_SESSION['userId'] = $userId;
+                        $_SESSION['user_id'] = $userId;
                         header("Location: ../change_password.php");
                         exit();
                     }

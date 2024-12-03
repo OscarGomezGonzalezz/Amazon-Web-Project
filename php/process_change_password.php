@@ -7,7 +7,7 @@ session_start();
 require './db_connection.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: users/login.php");
+    header("Location: ./users/login.php");
     exit;
 }
 
@@ -23,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-
+    global $conn;
     // Actualizar la contraseña y desactivar `must_change_password`
-    $stmt = $mysqli->prepare("UPDATE Users SET password_hash = ?, must_change_password = 0 WHERE user_id = ?");
+    $stmt = $conn->prepare("UPDATE Users SET password_hash = ?, must_change_password = 0 WHERE user_id = ?");
     $stmt->bind_param("si", $hashed_password, $user_id);
 
     if ($stmt->execute()) {
