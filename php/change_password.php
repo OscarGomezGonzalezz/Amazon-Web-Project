@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['userId'])) {
     header("Location: ./users/login.php");
     exit;
 }
 
 // El usuario está autenticado, puedes mostrar la página de cambio de contraseña
-echo "Cambiar contraseña para el usuario ID: " . $_SESSION['user_id'];
+echo "Cambiar contraseña para el usuario ID: " . $_SESSION['userId'];
 ?>
 <!DOCTYPE html>
 <html lang="es">

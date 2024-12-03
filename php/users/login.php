@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->close();
 
                     if ($mustChangePassword) {
-                        $_SESSION['user_id'] = $userId;
+                        $_SESSION['userId'] = $userId;
                         header("Location: ../change_password.php");
                         exit();
                     }
