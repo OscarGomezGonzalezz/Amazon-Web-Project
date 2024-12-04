@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// We verify if the user is logged in
+if (!isset($_SESSION['userId'])) {
+    
+    header("Location: login.html");//in case he does not, we redirige him to login page
+    exit(); 
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -40,7 +50,7 @@
           <span class="login-text">Log out</span>
         </a>
 
-        <a class="orders-link header-link col" href="orders.html">
+        <a class="orders-link header-link col" href="orders.php">
 
           <!--We separate both words for then styling them differently-->
           <span class="returns-text">Returns</span>
@@ -48,7 +58,7 @@
         </a>
         
         <!--Redirection to cart page-->
-        <a class="cart-link header-link col" href="shopping-cart.html">
+        <a class="cart-link header-link col" href="shopping-cart.php">
           <!--The FA icon is not valid for this feature-->
           <img class="cart-icon" src="./images/cart-icon.png">
            <!--We add more details to the icon-->

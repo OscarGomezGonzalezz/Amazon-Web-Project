@@ -1,17 +1,30 @@
+<?php
+// Inicia la sesión
+session_start();
+
+// Verifica si el usuario está logueado
+if (!isset($_SESSION['userId'])) {
+    // Si no está logueado, redirige al login
+    header("Location: login.html");
+    exit(); // Asegura que no se siga ejecutando el código después de la redirección
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Tracking</title>
+    <title>Orders</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
      <!-- CSS files for this page -->
-     <link rel="stylesheet" href="../../css/bootstrap.css">
-     <link rel="stylesheet" href="styles/tracking.css">
-     <link rel="stylesheet" href="styles/common/header.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="styles/orders.css">
+    <link rel="stylesheet" href="styles/common/header.css">
 
   </head>
   <body>
     <!--Same header as the home page-->
 
+    <!-- All search bar-->
     <div class="header container-fluid row align-items-center">
 
       <!-- Amazon Icon for going home -->
@@ -28,71 +41,43 @@
           <i class="fa-solid fa-magnifying-glass fa-lg"></i>
         </button>
       </div>
-
-
-      
-      <!--Redirection to both returns & orders and checkout pages-->
+      <!--Redirection to both returns & orders and  pages-->
       <div class="header-right-section col row align-items-center">
-
-        <a class="login-link header-link col" href="login.html">
-
+        <a id="login-link" class="login-link header-link col" href="login.html">
           <!--We separate both words for then styling them differently-->
           <span class="hello-text">Hello,</span>
           <span class="login-text">Log in</span>
         </a>
-
-        <a class="orders-link header-link col" href="orders.html">
-
+        <a class="orders-link header-link col" href="orders.php">
           <!--We separate both words for then styling them differently-->
           <span class="returns-text">Returns</span>
           <span class="orders-text">& Orders</span>
         </a>
-        
         <!--Redirection to cart page-->
-        <a class="cart-link header-link col" href="shopping-cart.html">
+        <a class="cart-link header-link col" href="shopping-cart.php">
           <!--The FA icon is not valid for this feature-->
           <img class="cart-icon" src="./images/cart-icon.png">
            <!--We add more details to the icon-->
-          <div class="cart-quantity js-cart-quantity">0</div>
+          <div class="cart-quantity" id="js-cart-quantity">0</div>
           <div class="cart-text">Cart</div>
         </a>   
       </div>
-    </div>   
+    </div>
+      <!-- main -->
     <div class="main">
-      <div class="order-tracking">
+      <div class="page-title">Your Orders</div>
+
+      <div class="orders-grid">
         
-        <a class="back-to-orders-link link-primary" href="orders.html">
-          View all orders
-        </a>
-
-        <div class="delivery-date"></div>
-
-        <div class="product-info"></div>
-
-        <div class="product-info"></div>
-
-        <!--The product image we are tracking(We wont use Font Awesome for this)-->
-        <img class="product-image" src="./images/products/">
-
-        <div class="progress-labels-container">
-          <div class="progress-label">
-            Preparing
-          </div>
-          <div class="progress-label">
-            Shipped
-          </div>
-          <div class="progress-label">
-            Delivered
-          </div>
-        </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar"></div>
-        </div>
-
       </div>
     </div>
 
     <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
+
+    <script src="./js/common/checkUserStatus.js"></script>
+    <script src="./js/orders.js"></script>
+
+    <!--Sweet alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </body>
 </html>
