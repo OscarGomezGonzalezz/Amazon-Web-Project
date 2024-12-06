@@ -17,10 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(response => response.json())
                 .then(data => {
                     if (data.exists) {
-                        feedback.textContent = "El correo ya está registrado.";
+                        feedback.textContent = "Email is already registered.";
                         feedback.style.color = "red";
                     } else {
-                        feedback.textContent = "El correo está disponible.";
+                        feedback.textContent = "Email is available.";
                         feedback.style.color = "green";
                     }
                 })
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     feedback.style.color = "red";
                 });
         } else {
-            feedback.textContent = "Por favor ingresa un correo válido.";
+            feedback.textContent = "Please write a valid email.";
             feedback.style.color = "orange";
         }
     });
@@ -40,27 +40,35 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = emailInput.value.trim();
 
         if (!email || !email.includes("@")) {
-            alert("Por favor ingresa un correo electrónico válido.");
+            feedback.textContent= "Please write a valid email.";
+            feedback.style.color = "red";
             return;
         }
 
         fetch('./php/register.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify({ email: email })
+            body: new URLSearchParams({
+                email: email
+            })
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
+                console.log(data);
                 if (data.success) {
                     window.location.href = "login.html";
                 }
             })
             .catch(error => {
-                console.error("Error en el registro:", error);
-                alert("Hubo un problema con el registro.");
+                console.error("Error in the register:", error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Failed to register.",
+                    icon: "error",
+                    confirmButtonText: "Try Again"
+                });
             });
     });
 });

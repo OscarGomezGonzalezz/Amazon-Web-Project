@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "<p style='color: red;'>Error: Unable to retrieve the last order ID.</p>";
                 }
 
-                // Step 4: Copy the order items into the new order
                 $copyItemsQuery = 'INSERT INTO OrderItems(order_id, article_name, quantity, price, image_url) 
                                    SELECT ?, article_name, quantity, price, image_url 
                                    FROM OrderItems WHERE order_id = ?';

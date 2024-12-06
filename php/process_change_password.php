@@ -6,13 +6,13 @@ error_reporting(E_ALL);
 session_start();
 require './db_connection.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['userId'])) {
     header("Location: ./users/login.php");
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['userId'];
     echo "Sesión activa. User ID: " . $user_id;
     $new_password = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';

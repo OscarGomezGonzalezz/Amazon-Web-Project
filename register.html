@@ -19,19 +19,22 @@
 
       <!-- Registration form -->
       <div class="login-box border rounded p-4">
-        <h1>Crear Cuenta</h1>
-        <form action="" method="post" id="registerForm">
-          <label for="email">Correo electrónico</label>
+        <h1>Create Account</h1>
+        <form action="" method="post" id="registerForm" novalidate>
+          <label for="email">Email</label>
           <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
           <span id="emailFeedback"></span> <!-- habia un br aqui -->
           <!-- Submit button -->
-          <button type="submit" class="login-btn">Continuar</button>
+          <button type="submit" class="login-btn">Continue</button>
         </form>
       </div>
     </div>
 
     <!-- Font Awesome (Icons Library) -->
     <script src="https://kit.fontawesome.com/6e6ca3a608.js" crossorigin="anonymous"></script>
-    <script src="./js/registro.js"></script>
+    <script src="./js/register.js"></script>
+
+      <!--Sweet alert-->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </body>
 </html>

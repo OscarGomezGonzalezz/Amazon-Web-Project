@@ -3,100 +3,86 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require '../vendor/autoload.php'; // PHPMailer autoload
-
-header('Content-Type: application/json');
-
-// Configuración de errores
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/error_log.log');
-
-// Conexión a la base de datos
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=amazonDB', 'root', 'password1234');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    error_log("Error en la base de datos: " . $e->getMessage());
-    echo json_encode(['success' => false, 'message' => 'Error en la base de datos']);
-    exit;
-}
+include ('./db_connection.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $rawInput = file_get_contents("php://input");
-    $input = json_decode($rawInput, true);
 
-    $email = $input['email'] ?? '';
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(['success' => false, 'message' => 'Por favor ingresa un correo electrónico válido.']);
+    if (isset($_POST['email']) && !empty($_POST['email'])){
+
+        $email = $_POST['email'];
+        global $conn;
+
+        // Check if email already exists
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM Users WHERE email = ?");
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        
+        if ($count > 0) {
+            echo json_encode(['success' => false, 'message' => 'Email is already registered.']);
+            exit;
+        }
+
+        // Generate random password
+        $length = 10;
+        $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $uppercaseCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $password = '';
+
+        for ($i = 0; $i < $length - 1; $i++) {
+            $password .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+
+        // Ensure at least one uppercase character
+        $password .= $uppercaseCharacters[random_int(0, strlen($uppercaseCharacters) - 1)];
+        $password = str_shuffle($password);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insert user into the database
+        $stmt = $conn->prepare("INSERT INTO Users (email, password_hash) VALUES (?, ?)");
+        $stmt->bind_param('ss', $email, $hashedPassword);
+        $stmt->execute();
+        $stmt->close();
+
+        // Send email
+        try {
+            /*$mail = new PHPMailer(true);
+            
+            // SMTP configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'esperoquefuncioneconsusmuerto@gmail.com';
+            $mail->Password = 'ttqqskqmskdovzmu'; // It's recommended to use environment variables or a config file for sensitive data like passwords
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Set email sender and recipient
+            $mail->setFrom('esperoquefuncioneconsusmuerto@gmail.com', 'Amazon Clone');
+            $mail->addAddress($email);
+
+            // Set email content
+            $mail->isHTML(true);
+            $mail->Subject = 'Successful Register - Amazon Clone';
+            $mail->Body = "Welcome to Amazon Clone. Your temporary password is: <b>$password</b>. Please login and change your password.";
+
+            // Send the email
+            if (!$mail->send()) {
+                throw new Exception('Mailer Error: ' . $mail->ErrorInfo);
+            }*/
+
+            echo json_encode(['success' => true, 'message' => 'Registration successful. Check your email for the temporary password.']);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Mailer Error: ' . $e->getMessage()]);
+        }
+
         exit;
-    }
 
-    // Verificar duplicados
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-    if ($stmt->fetchColumn() > 0) {
-        echo json_encode(['success' => false, 'message' => 'El correo ya está registrado.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Please provide a valid email.']);
         exit;
-    }
-    // Generar contraseña aleatoria con al menos una mayúscula
-function generatePassword($length = 10) {
-    $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    $uppercaseCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $password = '';
-
-    // Generar una parte de la contraseña con caracteres al azar
-    for ($i = 0; $i < $length - 1; $i++) {
-        $password .= $characters[random_int(0, strlen($characters) - 1)];
-    }
-
-    // Asegurar que tenga al menos una mayúscula
-    $password .= $uppercaseCharacters[random_int(0, strlen($uppercaseCharacters) - 1)];
-
-    // Mezclar los caracteres para aleatoriedad
-    return str_shuffle($password);
-}
-
-// Usar la función para generar la contraseña
-$password = generatePassword();
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-
-    // Insertar usuario en la base de datos con el estado de "primera vez"
-    $id=1;
-    try {
-        $stmt = $pdo->prepare("INSERT INTO users (user_id,email,password_hash) VALUES ($id,:email,:password)");
-        $stmt->execute(['email' => $email, 'password' => $hashedPassword]); //REVISAR ESTA LINEA
-        $id=$id +1; //CUIDADO CON ESTA; LINEA
-    } catch (PDOException $e) {
-        error_log("Error al registrar usuario: " . $e->getMessage());
-        echo json_encode(['success' => false, 'message' => 'Error al registrar el usuario.']);
-        exit;
-    }
-
-    // Enviar email de confirmación con contraseña
-    $mail = new PHPMailer(true);
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'esperoquefuncioneconsusmuerto@gmail.com';
-        $mail->Password = 'ttqqskqmskdovzmu';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-
-        $mail->setFrom('esperoquefuncioneconsusmuerto@gmail.com', 'Amazon Clone');
-        $mail->addAddress($email);
-
-        $mail->isHTML(true);
-        $mail->Subject = 'Registro Exitoso - Amazon Clone';
-        $mail->Body = "Bienvenido a Amazon Clone. Tu contraseña temporal es: <b>$password</b>. 
-                       Por favor inicia sesión y cambia tu contraseña.";
-
-        $mail->send();
-        echo json_encode(['success' => true, 'message' => 'Registro exitoso. Revisa tu correo para la contraseña temporal.']);
-    } catch (Exception $e) {
-        error_log("Error al enviar el correo: " . $mail->ErrorInfo);
-        echo json_encode(['success' => false, 'message' => 'Error al enviar el correo de confirmación.']);
     }
 }
 ?>
