@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Send email
         try {
-            /*$mail = new PHPMailer(true);
+            $mail = new PHPMailer(true);
             
             // SMTP configuration
             $mail->isSMTP();
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Send the email
             if (!$mail->send()) {
                 throw new Exception('Mailer Error: ' . $mail->ErrorInfo);
-            }*/
+            }
 
             echo json_encode(['success' => true, 'message' => 'Registration successful. Check your email for the temporary password.']);
         } catch (Exception $e) {
