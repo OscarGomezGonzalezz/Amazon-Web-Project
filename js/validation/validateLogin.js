@@ -40,10 +40,6 @@ loginForm.addEventListener("submit", function(event) {
         errorMessage.textContent = "Password must be at least 9 characters long and contain one uppercase letter, one lowercase letter, and one number.";
         return;
   }
-
-  // Hash the password using SHA-512 before sending it
-  const hashedPassword = CryptoJS.SHA512(password).toString();
-  document.getElementById("password").value = hashedPassword; // Set the hashed password back to the input
   
   //Screen resolution
   document.getElementById("screen-resolution").value = `${window.screen.width}x${window.screen.height}`;

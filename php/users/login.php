@@ -32,34 +32,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
 
-        function getStoredHashForEmail($email) {
+        global $conn; // Access the connection from the outer scope
+        // Prepare and execute the query to get the stored hash from the database
+        $stmt = $conn->prepare("SELECT password_hash FROM USERS WHERE email = ?"); 
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($storedHash);
+        $stmt->fetch();
+        $stmt->close();
 
-            global $conn; // Access the connection from the outer scope
-    
-            //TODO: ADD USERS IN THE DATABASE THROUGHOUT THE REGISTER WINDOW
-    
-            // Prepare and execute the query to get the stored hash from the database
-            $stmt = $conn->prepare("SELECT password_hash FROM USERS WHERE email = ?"); //PONIA PASSWORD_HASH en minusculas
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $stmt->bind_result($storedHash);
-            $stmt->fetch();
-            $stmt->close();
-    
-            return $storedHash;
-        }
-        // password is hashed with SHA-512, and we have to compare it with the hash stored in the database
-        $storedHash = getStoredHashForEmail($email);
-
-        if ($storedHash 
-        //&& hash_equals($storedHash, $password)
-         ) 
+        if ($storedHash && password_verify($password,$storedHash)) 
          {
-
-            session_start();
-
             // Password is correct
-            
+            session_start();
 
             // We fetch user_id from the Users table based on the email
             $stmt = $conn->prepare("SELECT user_id FROM Users WHERE email = ?"); //PONIA USER_ID en minusculas
@@ -71,21 +56,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
                 // Check if user_id was found
             if ($userId) {
-                
-                            // Verificar si debe cambiar la contraseña
-                    $stmt = $conn->prepare("SELECT must_change_password FROM Users WHERE user_id = ?");
-                    $stmt->bind_param("i", $userId);
-                    $stmt->execute();
-                    $stmt->bind_result($mustChangePassword);
-                    $stmt->fetch();
-                    $stmt->close();
 
-                    if ($mustChangePassword) {
-                        $_SESSION['userId'] = $userId;
-                        header("Location: ../change_password.php");
-                        exit();
-                    }
+                $_SESSION['userId'] = $userId;
+                // Verificar si debe cambiar la contraseña
+                $stmt = $conn->prepare("SELECT must_change_password FROM Users WHERE user_id = ?");
+                $stmt->bind_param("i", $userId);
+                $stmt->execute();
+                $stmt->bind_result($mustChangePassword);
+                $stmt->fetch();
+                $stmt->close();
 
+                if ($mustChangePassword) {
+                    header("Location: ../../change_password.php");
+                    exit();
+                }
 
                 //insert login details into DB
                 $stmt = $conn->prepare("INSERT INTO LoginLogs(user_id, screen_resolution, os) VALUES (?, ?, ?)");
@@ -96,10 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }else {
                 echo "<p style='color: red;'>Error logging login details: " . $stmt->error . "</p>";
                 } 
-                // Close the statement
-                $stmt->close();
 
-                $_SESSION['userId'] = $userId;
+                $stmt->close();
                 //Set user as online
                 $stmt = $conn->prepare("UPDATE Users SET is_online = 1 WHERE user_id = ?");
                 $stmt->bind_param("i", $_SESSION['userId']);
