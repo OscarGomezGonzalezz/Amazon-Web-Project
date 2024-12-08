@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("si", $hashed_password, $user_id);
 
     if ($stmt->execute()) {
-        header("Location: ../homepage.php");
+        header("Location: ../login.html");
         exit;
     } else {
         echo "Error al actualizar la contraseña.";
