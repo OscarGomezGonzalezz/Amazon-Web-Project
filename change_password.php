@@ -19,8 +19,10 @@ if (!isset($_SESSION['userId'])) {
 <body>
     <div class="password-container">
         <h1>Change Password</h1>
-        <form action="php/process_change_password.php" method="post">
+        <form id="change_password_form" action="php/process_change_password.php" method="post">
             <label for="new_password">New Password:</label>
+              <!-- Error Message -->
+          <div id="error-message" style="color: red;"></div>
             <input type="password" id="new_password" name="new_password" required>
             <label for="confirm_password">Confirm Password:</label>
             <input type="password" id="confirm_password" name="confirm_password" required>
@@ -28,5 +30,6 @@ if (!isset($_SESSION['userId'])) {
         </form>
         <div class="footer">© 2024, AmazonClone.com</div>
     </div>
+    <script src="./js/validation/validateChangePassword.js"></script>
 </body>
 </html>
