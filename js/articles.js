@@ -41,18 +41,40 @@ function fetchCartQuantity() {
         });
 }
 function fetchArticles() {
+    console.log("Fetching articles from the server...");
+
     fetch('php/cart/get_articles.php')
-        .then(response => response.json())
-        .then(data => {
+        .then(response => {
+            console.log("Response received:", response);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return response.text(); // Leer como texto primero para depuración
+        })
+        .then(responseText => {
+            console.log("Raw response text:", responseText); // Depurar la respuesta cruda
+
+            if (!responseText) {
+                throw new Error("Empty response from server");
+            }
+
+            // Intenta convertir la respuesta a JSON
+            const data = JSON.parse(responseText);
+            console.log("Parsed JSON data:", data);
+
             if (data.error) {
                 console.error("Error fetching articles:", data.error);
                 return;
             }
+
             allArticles = data;
-            displayArticles(data); // Pass data to displayArticles
+            displayArticles(data); // Muestra los artículos en la página
         })
         .catch(error => console.error("Fetch error:", error));
 }
+
 
 // Filter and display articles based on the search query
 function filterAndDisplayArticles(searchQuery) {

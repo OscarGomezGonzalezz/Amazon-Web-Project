@@ -1,24 +1,56 @@
 <?php
-//This is implemented as AJAX, so we return the information as JSON
+// Habilita la visualización de errores para depuración
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Encabezado JSON
+header('Content-Type: application/json');
+
+// Mensaje para confirmar que se ejecuta el script
+error_log("get_articles.php: Script started");
+
+// Incluye la conexión a la base de datos
 include '../db_connection.php';
 
-// Query to fetch all articles
-$result = $conn->query("SELECT * FROM Articles");
+// Verifica si la conexión falló
+if ($conn->connect_error) {
+    error_log("Database connection failed: " . $conn->connect_error);
+    echo json_encode(['error' => 'Database connection failed']);
+    exit;
+}
 
+// Realiza la consulta SQL
+$query = "SELECT * FROM Articles";
+$result = $conn->query($query);
+
+// Verifica si la consulta falló
+if (!$result) {
+    error_log("Query failed: " . $conn->error);
+    echo json_encode(['error' => 'Query failed']);
+    exit;
+}
+
+// Inicializa el array de artículos
 $articles = [];
 
+// Procesa los resultados de la consulta
 if ($result->num_rows > 0) {
-    // Fetch each row and add to the articles array
-    while ($row = $result->fetch_assoc())//fetches the next row of the result as an associative array
-     {
-        $articles[] = $row;//adds each row to the articles assoc array
+    while ($row = $result->fetch_assoc()) {
+        $articles[] = $row;
     }
 }
 
-// Return JSON response for AJAX
-header('Content-Type: application/json');
-echo json_encode($articles);
+// Devuelve un mensaje si no hay artículos
+if (empty($articles)) {
+    error_log("No articles found");
+    echo json_encode(['message' => 'No articles found']);
+    exit;
+}
 
-// Close the connection
+// Devuelve los datos en formato JSON
+echo json_encode($articles);
+error_log("get_articles.php: JSON response sent");
+
+// Cierra la conexión
 $conn->close();
 ?>
