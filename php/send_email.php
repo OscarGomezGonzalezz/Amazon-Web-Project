@@ -8,12 +8,12 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php'; // Asegúrate de que Composer haya instalado PHPMailer
 
 // Datos de ejemplo (reemplaza con tus variables dinámicas)
-$orderNumber = "123456";
-$itemName = "Example Item";
-$itemQuantity = 2;
-$shippingCost = "5.00";
-$totalAmount = "25.00";
-$customerEmail = "customer@example.com"; // Reemplaza por el correo del cliente
+$orderNumber = $orderId;
+$itemName = $article['name'];
+$itemQuantity =  $article['quantity'];
+$shippingCost = $shippingMethod;
+$totalAmount = $totalPrice;
+$customerEmail = $email; // Reemplaza por el correo del cliente
 
 // Crear la instancia de PHPMailer
 $mail = new PHPMailer(true);
