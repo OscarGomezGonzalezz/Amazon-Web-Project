@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insert user into the database
         // BORRAR CONTRASEÑA VIEJA Y PONER LA NUEVA
         $stmt = $conn->prepare("UPDATE Users SET password_hash = ? , must_change_password= 1 WHERE email = ?");
-        $stmt->bind_param('ss', $email, $hashedPassword);
+        $stmt->bind_param('ss',$hashedPassword, $email);
         $stmt->execute();
         $stmt->close();
 
