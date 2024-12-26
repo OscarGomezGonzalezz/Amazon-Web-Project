@@ -40,8 +40,11 @@ function fetchOrders() {
     }
 
 function displayOrders(orders){
+    if (orders.length > 0){
     const ordersGrid = document.querySelector('.orders-grid'); // Ensure the container exists in your HTML
-    ordersGrid.innerHTML = ''; // Clear existing content
+    ordersGrid.innerHTML = `
+    <div class="page-title">Your Orders</div>`; // Clear existing content
+    
 
     const ordersArray = Object.values(orders);
     console.log(ordersArray);
@@ -95,7 +98,7 @@ function displayOrders(orders){
         ordersGrid.appendChild(orderDetailsGrid);
     });
 
-    
+}
 }
 
 function sameOrder(order_id){

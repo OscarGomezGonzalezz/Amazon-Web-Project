@@ -65,10 +65,15 @@ if (!isset($_SESSION['userId'])) {
     </div>
       <!-- main -->
     <div class="main">
-      <div class="page-title">Your Orders</div>
 
       <div class="orders-grid">
-        
+
+        <h1>No Orders Placed Yet</h1>
+        <p>Your order history will appear here once you've made some purchases. Explore our products and start shopping.</p>
+        <div class="row">
+        <button class="products-btn " onclick="window.location.href='home.html'">Go check our products!</button>
+    </div>
+
       </div>
     </div>
 

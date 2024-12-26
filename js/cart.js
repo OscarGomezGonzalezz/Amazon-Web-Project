@@ -59,6 +59,10 @@ function fetchArticles() {
         .catch(error => console.error("Fetch error:", error));
 }
 function displayArticles(articles) {
+    if (articles.length > 0){
+
+    const paymentSummary = document.getElementById('payment-summary');
+    paymentSummary.removeAttribute('hidden');
     const articlesGrid = document.querySelector('.articles-grid');
     articlesGrid.innerHTML = ''; // Clear previous articles
 
@@ -123,6 +127,7 @@ function displayArticles(articles) {
             }
         });
     });
+}
 }
 
 function updateCart(article_id, quantity) {

@@ -64,11 +64,12 @@ if (!isset($_SESSION['userId'])) {
           <h1>Cest</h1>
         </div>
         <div class="articles-grid row">
-          <!-- Cart Articles will be displayed here -->
+          <p style="font-size: 18px">Not articles added yet</p>
         </div>
       </div>
+
        <!-- Order Subtotal -->
-      <div class="col-lg-4">
+      <div class="col-lg-4" id="payment-summary"hidden>
         <div class="payment-summary border p-3">
           <div class="payment-summary-row total-row d-flex justify-content-between">
             <div>Subtotal (<span id="js-cart-quantity2">0</span> Products):</div>
