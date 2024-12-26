@@ -34,8 +34,9 @@ if (!isset($_SESSION['userId'])) {
       <!-- Order details -->
       <div class="order-summary">
         <h2>Order Summary</h2>
-        <p>Order Number: <span>#12345</span></p>
-        <p>Estimated Delivery: <span>3-5 Business Days</span></p>
+        <p>Order Number: <span>#<span id="orderNumber">12345</span></span></p>
+        <p>Address: <span id="address" >home, Street Av</span></p>
+        <p>Total Amount: <span><span id="totalPrice">100.00</span> $</span></p>
       </div>
 
       <!-- Call to actions -->
@@ -55,5 +56,6 @@ if (!isset($_SESSION['userId'])) {
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/thanks.js"></script>
   </body>
 </html>
