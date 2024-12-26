@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        fetch('./php/register.php', {
+        fetch('./php/users/register.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
