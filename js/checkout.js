@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
   resetValidCode();
 });
 
-let totalPrice = 0;
+let totalPricePHP = 0;
 
 function fetchTotalPrice() {
   fetch("php/cart/get_cart_total_price.php")
@@ -21,7 +21,8 @@ function fetchTotalPrice() {
     .then(data => {
       if(data){
         console.log(data.total_cart_price);
-        totalPrice = parseFloat(data.total_cart_price);
+        totalPricePHP = parseFloat(data.total_cart_price).toFixed(2);
+        document.getElementById("totalPrice").value = totalPricePHP;
         document.getElementById("js-total-cart-price").innerHTML = `${data.total_cart_price.toFixed(2)} $`;//We set the final price to 2 decimal
       }
     })
