@@ -87,7 +87,7 @@ if (!isset($_SESSION['userId'])) {
       <div class="cont-left col-md-5 col-lg-6">
         <h4 class="mb-3">Shipping address</h4>
         
-        <form id="checkout-form" action="php/createOrderAndSendEmail.php" method="post" novalidate>
+        <form id="checkout-form" action="php/orders/createOrderAndSendEmail.php" method="post" novalidate>
           <div class="row g-3">
             
             <div class="col-sm-5">
