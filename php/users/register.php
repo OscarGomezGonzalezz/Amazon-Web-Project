@@ -2,8 +2,8 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../vendor/autoload.php'; // PHPMailer autoload
-include ('./db_connection.php');
+require '../../vendor/autoload.php'; // PHPMailer autoload
+include ('../db_connection.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
