@@ -48,7 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch('./php/users/register.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded' //TODO 
+                // habria que cambiar a json?
             },
             body: new URLSearchParams({
                 email: email

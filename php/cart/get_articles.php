@@ -1,5 +1,8 @@
 <?php
 // Habilita la visualización de errores para depuración
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/error.log'); // Crea 'error.log' en el mismo directorio que el script
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -48,9 +51,9 @@ if (empty($articles)) {
 }
 
 // Devuelve los datos en formato JSON
+error_log("Articles data: " . json_encode($articles)); // Para ver qué datos se están enviando CUUIDIADOODOAODO
 echo json_encode($articles);
 error_log("get_articles.php: JSON response sent");
 
 // Cierra la conexión
 $conn->close();
-?>
