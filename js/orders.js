@@ -34,13 +34,16 @@ function fetchOrders() {
                     console.error("Error fetching articles:", data.error);
                     return;
                 }
+
+                console.log(data.length);
                 displayOrders(data); // Pass data to displayArticles
             })
             .catch(error => console.error("Fetch error:", error));
     }
 
 function displayOrders(orders){
-    if (orders.length > 0){
+    
+    if (Object.keys(orders).length > 0) {
     const ordersGrid = document.querySelector('.orders-grid'); // Ensure the container exists in your HTML
     ordersGrid.innerHTML = `
     <div class="page-title">Your Orders</div>`; // Clear existing content

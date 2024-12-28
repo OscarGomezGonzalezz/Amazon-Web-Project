@@ -224,8 +224,12 @@ function handleShippingMethodChange(event) {
         break;
       }
     }
-    const finalPrice = totalPrice + shippingCosts;
-    document.getElementById("js-total-cart-price").innerHTML = `${finalPrice.toFixed(2)} $`;
+    
+    const finalPrice = (parseFloat(totalPricePHP) + shippingCosts);
+
+
+    console.log(finalPrice);
+    document.getElementById("js-total-cart-price").innerHTML = `${finalPrice} $`;
 
     document.getElementById("totalPrice").value = finalPrice;
 

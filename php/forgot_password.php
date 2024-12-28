@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Set email content
             $mail->isHTML(true);
-            $mail->Subject = 'Successful Register - Amazon Clone';
+            $mail->Subject = 'Change your password - Amazon Clone';
             $mail->Body = "Here you have a new password. Your temporary password is: <b>$password</b>. Please login and change your password.";
 
             // Send the email
